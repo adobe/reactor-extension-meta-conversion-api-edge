@@ -1,0 +1,9 @@
+__tests__
+src/view
+createEntryFile.mjs
+\.*
+webpack.*
+coverage
+jest.config.js
+facebook_conversions_api_extension-*.tgz
+package-facebook_conversions_api_extension-*.zip

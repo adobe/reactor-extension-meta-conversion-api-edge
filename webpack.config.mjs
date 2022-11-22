@@ -1,23 +1,31 @@
-/**
- * (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
- */
-"use strict";
+/*
+Copyright 2022 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackShellPlugin = require('webpack-shell-plugin');
-const webpack = require('webpack');
-const extension = require('./extension');
-const camelCase = require('camelcase');
-const capitalize = require('capitalize');
-const createEntryFile = require('./createEntryFile');
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
 
-const entries = {
-  'babel-polyfill': 'babel-polyfill'
-};
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+import extension from './extension.json' assert { type: 'json' };
+import camelCase from 'camelcase';
+import capitalize from 'capitalize';
+import createEntryFile from './createEntryFile.mjs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const entries = {};
 const plugins = [];
 
-module.exports = (env) => {
+export default (env, argv) => {
   // Each view becomes its own "app". These are automatically generated based on naming convention.
   ['configuration', 'action'].forEach((type) => {
     const typePluralized = type + 's';
@@ -38,7 +46,7 @@ module.exports = (env) => {
           const itemName = itemDescriptor.name;
           const itemNameCamelized = camelCase(itemName);
           itemNameCapitalized = capitalize(itemNameCamelized);
-          chunkName = `${itemDescriptor.viewPath.replace('.html', '')}`;
+          chunkName = `${typePluralized}/${itemNameCamelized}`;
         }
 
         const entryPath = `./.entries/${chunkName}.js`;
@@ -47,6 +55,13 @@ module.exports = (env) => {
 
         plugins.push(
           new HtmlWebpackPlugin({
+            reactDevHook:
+              argv.mode === 'development'
+                ? '<script> if (window.parent !== window) {' +
+                  ' window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = ' +
+                  'window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__; ' +
+                  '} </script>'
+                : '',
             title: itemDescriptor.displayName || 'Configuration',
             filename: `${chunkName}.html`,
             template: 'src/view/template.html',
@@ -56,30 +71,6 @@ module.exports = (env) => {
       }
     });
   });
-
-  plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.SCALE_MEDIUM': 'true',
-      'process.env.SCALE_LARGE': 'false',
-      'process.env.THEME_LIGHT': 'false',
-      'process.env.THEME_LIGHTEST': 'true',
-      'process.env.THEME_DARK': 'false',
-      'process.env.THEME_DARKEST': 'false'
-    })
-  );
-
-  if (env === 'sandbox') {
-    // This allows us to run the sandbox after the initial build takes place. By not starting up the
-    // sandbox while simultaneously building the view, we ensure:
-    // (1) Whatever we see in the browser contains the latest view files.
-    // (2) The sandbox can validate our extension.json and find that the view files it references
-    // actually exist because they have already been built.
-    plugins.push(
-      new WebpackShellPlugin({
-        onBuildEnd: ['./node_modules/.bin/reactor-sandbox']
-      })
-    );
-  }
 
   let minChunks = Math.round(Object.keys(entries).length / 4);
   if (minChunks < 2) {
@@ -112,60 +103,49 @@ module.exports = (env) => {
         {
           test: /\.jsx?$/,
           include: /src\/view/,
-          loader: 'babel-loader'
-        },
-        {
-          test: /\.js$/,
-          include: /\.entries/,
-          loader: 'babel-loader'
-        },
-        {
-          test: /\.styl/,
-          include: /src\/view/,
+          exclude: /__tests__/,
           use: [
             {
-              loader: 'style-loader'
-            },
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'stylus-loader'
-            },
-
-          ],
-        },
-        {
-          test: /\.css/,
-          use: [
-            {
-              loader: 'style-loader'
-            },
-            {
-              loader: 'css-loader'
-            },
-
-          ],
-        },
-        {
-          test: /\.(jpe?g|png|gif)$/,
-          loader: 'file-loader'
-        },
-        {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          use: [
-            {
-              loader: 'url-loader',
+              loader: 'babel-loader',
               options: {
-                limit: 10000,
-                mimetype: 'application/font-woff'
+                presets: ['@babel/react', '@babel/env'],
+                plugins: ['@babel/plugin-proposal-class-properties']
               }
             }
           ]
         },
         {
+          test: /\.js$/,
+          include: /\.entries/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: ['@babel/env']
+              }
+            }
+          ]
+        },
+        {
+          test: /\.styl/,
+          include: /src\/view/,
+          use: ['style-loader', 'css-loader', 'stylus-loader']
+        },
+        {
+          test: /\.css/,
+          use: ['style-loader', 'css-loader']
+        },
+        {
+          test: /\.(jpe?g|png|gif)$/,
+          use: 'file-loader'
+        },
+        {
+          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: 'url-loader?limit=10000&mimetype=application/font-woff'
+        },
+        {
           test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file-loader'
+          use: 'file-loader'
         }
       ]
     },

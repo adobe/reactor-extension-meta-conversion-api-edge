@@ -1,23 +1,29 @@
-/**
- * (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
- */
-import React, {useState} from "react";
+/*
+Copyright 2022 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+import React from 'react';
 import {
-  Checkbox,
   Content,
   Flex,
   Link,
-  Radio,
-  RadioGroup,
-  TextField
-} from "@adobe/react-spectrum";
-import {Controller,useFormContext } from "react-hook-form";
-import WrappedTextField from "../../components/wrappedTextField";
-import WrappedCheckboxComponent from '../../components/WrappedCheckboxComponent';
+  TextField,
+  ContextualHelp,
+  Heading
+} from '@adobe/react-spectrum';
+import WrappedTextField from '../../components/wrappedTextField';
 
-export default () => {
-  const {getValues} = useFormContext();
-
+export default function ConfigurationFields() {
   return (
     <Flex direction="column" gap="size-65">
       <WrappedTextField
@@ -38,15 +44,27 @@ export default () => {
         isRequired
         necessityIndicator="label"
         supportDataElement
+        contextualHelp={
+          <ContextualHelp>
+            <Heading>Need help?</Heading>
+            <Content>
+              <p>
+                A Meta System User access token is required to send events via
+                Conversions API.
+              </p>
+              <Link>
+                <a
+                  href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started#via-events-manager"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  How to generate a System User access token via Events Manager
+                </a>
+              </Link>
+            </Content>
+          </ContextualHelp>
+        }
       />
-      <Content width="size-4600">
-       A Meta System User access token is required to send events via Conversions API.{' '}
-        <Link>
-          <a href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started#via-events-manager" target="_blank">
-            How to generate a System User access token via Events Manager
-          </a>
-        </Link>
-      </Content>
     </Flex>
-  )
-};
+  );
+}

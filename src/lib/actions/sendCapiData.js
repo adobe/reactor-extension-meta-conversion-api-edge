@@ -1,35 +1,31 @@
-/**
- * (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
- */
-'use strict';
+/*
+Copyright 2022 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-var shaHashingHelper = require('./shaHashingHelper');
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
 
-module.exports = function ({ utils, arc }) {
-  const { getExtensionSettings, getSettings, fetch, logger } = utils;
-  const { pixelId, accessToken, lduEnabled } = getExtensionSettings();
-  const version = 'v14.0';
-  const url = `https://graph.facebook.com/${version}/${pixelId}/events/?access_token=${accessToken}`;
+/* eslint-disable camelcase */
 
-  return fetch(url, buildEventBody(getSettings));
-};
+const shaHashingHelper = require('./helpers/shaHashingHelper');
+const {
+  emailNormalizer,
+  phoneNumberNormalizer,
+  nameNormalizer,
+  cityNormalizer,
+  stateNormalizer,
+  zipNormalizer,
+  countryNormalizer
+} = require('./helpers/normalizers');
+const lduValue = 'LDU';
+const agentValue = 'adobe_launch';
 
-function parseCustomJsonData(customData) {
-  if (!customData) {
-    return undefined;
-  }
-  try {
-    if ("string" === typeof customData) {
-      return JSON.parse(customData)
-    }
-    return customData;
-  } catch (err) {
-    return undefined;
-  }
-}
-
-
-function buildEventBody(getSettings) {
+const buildEventBody = (getSettings) => {
   const {
     actionSource,
     clientIpAddress,
@@ -58,55 +54,65 @@ function buildEventBody(getSettings) {
     state,
     subscriptionId,
     testEventCode,
-    zip,
+    zip
   } = getSettings();
-  const lduValue = 'LDU';
-  const methodValue = 'POST';
-  const contentTypeValue = 'application/json';
-  const agentValue = 'adobe_launch';
+
+  const body = {
+    test_event_code: isTestEvent ? testEventCode : undefined,
+    data: [
+      {
+        event_name: eventName,
+        event_time: eventTime,
+        event_id: eventId ? eventId : undefined,
+        event_source_url: eventSourceUrl ? eventSourceUrl : undefined,
+        action_source: actionSource,
+        opt_out: optOut ? optOut : undefined,
+        data_processing_options: lduEnabled ? [lduValue] : [],
+        data_processing_options_country: lduEnabled ? 0 : undefined,
+        data_processing_options_state: lduEnabled ? 0 : undefined,
+        user_data: {
+          client_ip_address: clientIpAddress,
+          client_user_agent: clientUserAgent,
+          country: country ? countryNormalizer(country) : undefined,
+          ct: city ? cityNormalizer(city) : undefined,
+          db: dob ? shaHashingHelper(dob) : undefined,
+          em: email ? emailNormalizer(email) : undefined,
+          external_id: externalId ? shaHashingHelper(externalId) : undefined,
+          fb_login_id: fbLoginId ? fbLoginId : undefined,
+          fbc: fbc ? fbc : undefined,
+          fbp: fbp ? fbp : undefined,
+          fn: firstName ? nameNormalizer(firstName) : undefined,
+          ge: gender ? shaHashingHelper(gender) : undefined,
+          lead_id: leadId ? leadId : undefined,
+          ln: lastName ? nameNormalizer(lastName) : undefined,
+          ph: phone ? phoneNumberNormalizer(phone) : undefined,
+          st: state ? stateNormalizer(state) : undefined,
+          subscription_id: subscriptionId ? subscriptionId : undefined,
+          zp: zip ? zipNormalizer(zip) : undefined
+        }
+      }
+    ],
+    partner_agent: agentValue
+  };
+
+  if (customData) {
+    body.data[0].custom_data = customData;
+  }
 
   return {
-    method: methodValue,
+    method: 'POST',
     headers: {
-      'content-type': contentTypeValue,
+      'content-type': 'application/json'
     },
-    body: JSON.stringify({
-      test_event_code: (isTestEvent ? testEventCode : undefined),
-      data: [
-        {
-          event_name: eventName,
-          event_time: eventTime,
-          event_id: (eventId ? eventId : undefined),
-          event_source_url: (eventSourceUrl ? eventSourceUrl : undefined),
-          action_source: actionSource,
-          opt_out: (optOut ? optOut : undefined),
-          data_processing_options: (lduEnabled ? [lduValue] : []),
-          data_processing_options_country: (lduEnabled ? 0 : undefined),
-          data_processing_options_state: (lduEnabled ? 0 : undefined),
-          user_data: {
-            client_ip_address: clientIpAddress,
-            client_user_agent: clientUserAgent,
-            country: (country ? shaHashingHelper(country) : undefined),
-            ct: (city ? shaHashingHelper(city) : undefined),
-            db: (dob ? shaHashingHelper(dob) : undefined),
-            em: (email ? shaHashingHelper(email) : undefined),
-            external_id: (externalId ? shaHashingHelper(externalId) : undefined),
-            fb_login_id: (fbLoginId ? fbLoginId : undefined),
-            fbc: (fbc ? fbc : undefined),
-            fbp: (fbp ? fbp : undefined),
-            fn: (firstName ? shaHashingHelper(firstName) : undefined),
-            ge: (gender ? shaHashingHelper(gender) : undefined),
-            lead_id: (leadId ? leadId : undefined),
-            ln: (lastName ? shaHashingHelper(lastName) : undefined),
-            ph: (phone ? shaHashingHelper(phone) : undefined),
-            st: (state ? shaHashingHelper(state) : undefined),
-            subscription_id: (subscriptionId ? subscriptionId : undefined),
-            zp: (zip ? shaHashingHelper(zip) : undefined),
-          },
-          custom_data: parseCustomJsonData(customData),
-        },
-      ],
-      partner_agent: agentValue,
-    }),
+    body: JSON.stringify(body)
   };
+};
+
+module.exports = ({ utils }) => {
+  const { getExtensionSettings, getSettings, fetch } = utils;
+  const { pixelId, accessToken } = getExtensionSettings();
+  const version = 'v14.0';
+  const url = `https://graph.facebook.com/${version}/${pixelId}/events/?access_token=${accessToken}`;
+
+  return fetch(url, buildEventBody(getSettings));
 };

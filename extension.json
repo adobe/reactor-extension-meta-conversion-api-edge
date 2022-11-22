@@ -4,7 +4,7 @@
   "iconPath": "resources/icons/meta.svg",
   "platform": "edge",
   "version": "1.0.7",
-  "description": "Send web events through Edge to Meta's Conversions API",
+  "description": "Send web events to Meta's Conversions API.",
   "author": {
     "name": "Meta Platforms, Inc"
   },
@@ -20,13 +20,13 @@
           "type": "string",
           "minLength": 1
         },
-        "accessToken":{
-          "type":"string",
-          "minLength":1
+        "accessToken": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "additionalProperties": false,
-      "required": ["pixelId","accessToken"]
+      "required": ["pixelId", "accessToken"]
     }
   },
   "actions": [
@@ -41,13 +41,122 @@
             "type": "string",
             "minLength": 1
           },
-          "eventIime": {
+          "eventTime": {
+            "type": "string",
+            "minLength": 1
+          },
+          "eventSourceUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "eventId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "optOut": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actionSource": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lduEnabled": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 1
+          },
+          "firstName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dob": {
+            "type": "string",
+            "minLength": 1
+          },
+          "gender": {
+            "type": "string",
+            "minLength": 1
+          },
+          "city": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "zip": {
+            "type": "string",
+            "minLength": 1
+          },
+          "country": {
+            "type": "string",
+            "minLength": 1
+          },
+          "externalId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clientIpAddress": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clientUserAgent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fbc": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fbp": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subscriptionId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fbLoginId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "leadId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "customData": {
+            "oneOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          },
+          "isTestEvent": {
+            "type": "boolean"
+          },
+          "testEventCode": {
             "type": "string",
             "minLength": 1
           }
         },
-        "additionalProperties": true,
-        "required": ["eventName","eventTime"]
+        "additionalProperties": false,
+        "required": ["eventName", "eventTime", "actionSource"]
       },
       "libPath": "src/lib/actions/sendCapiData.js",
       "viewPath": "actions/sendCapiData.html"

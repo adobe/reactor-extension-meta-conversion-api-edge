@@ -4,4 +4,6 @@ test_results
 dist
 .sandbox
 .entries
-google-analytics-edge*
+facebook_conversions_api_extension-*.tgz
+package-facebook_conversions_api_extension-*.zip
+.eslintcache

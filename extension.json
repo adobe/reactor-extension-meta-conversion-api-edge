@@ -6,7 +6,8 @@
   "version": "1.0.7",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
-    "name": "Meta Platforms, Inc"
+    "name": "Adobe",
+    "url": "http://adobe.com"
   },
   "exchangeUrl": "https://partners.adobe.com/exchangeprogram/experiencecloud/exchange.details.105509.html",
   "viewBasePath": "dist/",

@@ -12,5 +12,7 @@ governing permissions and limitations under the License.
 
 module.exports = {
   isString: (value) =>
-    Object.prototype.toString.call(value) === '[object String]'
+    Object.prototype.toString.call(value) === '[object String]',
+  isObject: (value) =>
+    typeof value === 'object' && !Array.isArray(value) && value !== null
 };

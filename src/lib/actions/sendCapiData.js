@@ -22,7 +22,7 @@ const {
   zipNormalizer,
   countryNormalizer
 } = require('./helpers/normalizers');
-const { isString } = require('./helpers/validators');
+const { isString, isObject } = require('./helpers/validators');
 const parseCustomData = require('./helpers/parseCustomData');
 const lduValue = 'LDU';
 const agentValue = 'adobe_launch';
@@ -105,7 +105,9 @@ const buildEventBody = (getSettings) => {
       c = parseCustomData(c);
     }
 
-    body.data[0].custom_data = c;
+    if (isObject(c)) {
+      body.data[0].custom_data = c;
+    }
   }
 
   return {

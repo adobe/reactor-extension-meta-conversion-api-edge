@@ -22,6 +22,8 @@ const {
   zipNormalizer,
   countryNormalizer
 } = require('./helpers/normalizers');
+const { isString } = require('./helpers/validators');
+const parseCustomData = require('./helpers/parseCustomData');
 const lduValue = 'LDU';
 const agentValue = 'adobe_launch';
 
@@ -96,7 +98,14 @@ const buildEventBody = (getSettings) => {
   };
 
   if (customData) {
-    body.data[0].custom_data = customData;
+    let c = customData;
+
+    // Previous versions of the extension were saving custom data as a string.
+    if (isString(customData)) {
+      c = parseCustomData(c);
+    }
+
+    body.data[0].custom_data = c;
   }
 
   return {

@@ -1,11 +1,20 @@
 {
   "displayName": "Meta Conversions API Extension",
-  "name": "facebook_conversions_api_extension",
+  "name": "@adobe/reactor-extension-meta-conversion-api",
   "platform": "edge",
   "version": "1.0.7",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
-    "name": "Meta Platforms, Inc"
+    "name": "Adobe",
+    "url": "http://adobe.com",
+    "email": "reactor@adobe.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:adobe/reactor-extension-meta-conversion-api.git"
   },
   "scripts": {
     "build": "webpack --mode production",

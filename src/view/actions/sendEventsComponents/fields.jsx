@@ -15,7 +15,6 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
-  Checkbox,
   Content,
   Divider,
   Flex,
@@ -130,7 +129,7 @@ export default function SendEventSectionFields() {
             );
           }
         )}
-        <WrappedCheckboxComponent component={Checkbox} name="lduEnabled">
+        <WrappedCheckboxComponent name="lduEnabled">
           <Text>Enable Limited Data Use</Text>
         </WrappedCheckboxComponent>
 
@@ -197,7 +196,7 @@ export default function SendEventSectionFields() {
           <Content marginBottom="1em">
             <Text>{testEventText}</Text>
           </Content>
-          <WrappedCheckboxComponent component={Checkbox} name="isTestEvent">
+          <WrappedCheckboxComponent name="isTestEvent">
             Send as Test Event
           </WrappedCheckboxComponent>
           <WrappedTextField

@@ -13,11 +13,11 @@ governing permissions and limitations under the License.
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
+import { Checkbox } from '@adobe/react-spectrum';
 import { Controller } from 'react-hook-form';
 
 export default function WrappedCheckboxComponent({
   name: componentName,
-  component: Component,
   onChange: componentOnChange,
   onBlur: componentOnBlur,
   supportDataElement,
@@ -29,7 +29,7 @@ export default function WrappedCheckboxComponent({
       name={componentName}
       defaultValue={defaultValue}
       render={({ onChange, value, name, ref }) => (
-        <Component
+        <Checkbox
           name={name}
           onChange={(e) => {
             onChange(e);

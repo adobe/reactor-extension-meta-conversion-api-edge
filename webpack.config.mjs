@@ -91,6 +91,7 @@ export default (env, argv) => {
         }
       }
     },
+    devtool: argv.mode === 'development' ? 'source-map' : false,
     entry: entries,
     plugins: plugins,
     output: {

@@ -10,10 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 export default ({ settings }) => {
-  let lduEnabled = settings?.lduEnabled;
-  if (lduEnabled == null) {
-    lduEnabled = true;
-  }
+  const lduEnabled = settings?.lduEnabled;
 
   return {
     lduEnabled

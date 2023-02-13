@@ -26,15 +26,13 @@ import {
 } from '@adobe/react-spectrum';
 import WrappedTextField from '../../components/wrappedTextField';
 
-import WrappedComboboxField from '../../components/wrappedComboBox';
 import Parameters from './getParameters';
-import actionSources from '../../utils/actionSources';
 
 export default function ServerEventParametersFields() {
   const { watch } = useFormContext();
   const [actionSource] = watch(['actionSource']);
 
-  const serverEvents = Parameters({ actionSource });
+  const serverParameters = Parameters({ actionSource });
 
   return (
     <View>
@@ -54,7 +52,6 @@ export default function ServerEventParametersFields() {
           </a>
         </Link>
       </Content>
-
       <Flex alignItems="center" gap="size-75">
         <Heading level="3"> Server Event Parameters</Heading>
 
@@ -77,27 +74,22 @@ export default function ServerEventParametersFields() {
         </ContextualHelp>
       </Flex>
 
-      <WrappedComboboxField
-        minWidth="size-4600"
-        width="size-4600"
-        name="actionSource"
-        label="Action Source"
-        necessityIndicator="label"
-        description="This field allows you to specify where your conversion occurred."
-        isRequired
-        allowsCustomValue
-        defaultItems={actionSources
-          .getActionSourceNames()
-          .map((q) => ({ id: q, name: q }))}
-      />
-
-      {serverEvents.map(
-        ([name, label, description, isRequired, contextualHelp]) => {
+      {serverParameters.map(
+        ([
+          name,
+          label,
+          description,
+          isRequired,
+          contextualHelp,
+          WrappedComponent = WrappedTextField,
+          rest = {
+            component: TextField
+          }
+        ]) => {
           return (
-            <WrappedTextField
+            <WrappedComponent
               key={name}
               name={name}
-              component={TextField}
               width="size-4600"
               label={label}
               description={description}
@@ -105,6 +97,8 @@ export default function ServerEventParametersFields() {
               necessityIndicator={isRequired && 'label'}
               contextualHelp={contextualHelp}
               supportDataElement
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...rest}
             />
           );
         }

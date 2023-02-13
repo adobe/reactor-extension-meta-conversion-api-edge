@@ -15,8 +15,26 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { Content, Link, ContextualHelp, Heading } from '@adobe/react-spectrum';
 import CONSTANTS from '../../utils/constants';
+import WrappedComboBoxField from '../../components/wrappedComboBox';
+import eventNames from '../../utils/eventNames';
+import actionSources from '../../utils/actionSources';
 
 export default ({ actionSource } = {}) => [
+  [
+    'actionSource',
+    'Action Source',
+    'This field allows you to specify where your conversion occurred.',
+    true,
+    null,
+    WrappedComboBoxField,
+    {
+      defaultItems: actionSources
+        .getActionSourceNames()
+        .map((q) => ({ id: q, name: q })),
+      allowsCustomValue: true,
+      minWidth: 'size-4600'
+    }
+  ],
   [
     'eventName',
     'Event Name',
@@ -51,7 +69,13 @@ export default ({ actionSource } = {}) => [
           </a>
         </Link>
       </Content>
-    </ContextualHelp>
+    </ContextualHelp>,
+    WrappedComboBoxField,
+    {
+      defaultItems: eventNames.map((q) => ({ id: q, name: q })),
+      allowsCustomValue: true,
+      minWidth: 'size-4600'
+    }
   ],
   [
     'eventTime',

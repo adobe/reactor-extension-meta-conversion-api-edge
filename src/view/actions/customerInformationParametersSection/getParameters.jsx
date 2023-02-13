@@ -22,7 +22,33 @@ import {
 } from '@adobe/react-spectrum';
 import CONSTANTS from '../../utils/constants';
 
-export default ({ actionSource } = {}) => [
+export default ({ actionSource, lduEnabled } = {}) => [
+  [
+    'clientIpAddress',
+    'Client IP Address',
+    'The IP address of the browser corresponding to the event must' +
+      ' be a valid IPV4 or IPV6 address.',
+    lduEnabled,
+    <ContextualHelp>
+      <Heading>Need help?</Heading>
+      <Content>
+        <p>IPV6 is preferable over IPV4 for IPV6-enabled users.</p>
+        <p>
+          The{' '}
+          <strong>
+            <code>client_ip_address</code>
+          </strong>{' '}
+          user data parameter must never be hashed. No spaces should be
+          included. Always provide the real IP address to ensure accurate event
+          reporting.
+        </p>
+        <p>
+          The client IP address is required when &quot;Limited Data Use&quot;
+          option is enabled.
+        </p>
+      </Content>
+    </ContextualHelp>
+  ],
   [
     'clientUserAgent',
     'Client User Agent',
@@ -44,28 +70,6 @@ export default ({ actionSource } = {}) => [
           Conversions API may help improve event matching and could also help
           improve ad delivery for any ad campaigns optimizing on the events you
           send through the Conversions API.
-        </p>
-      </Content>
-    </ContextualHelp>
-  ],
-  [
-    'clientIpAddress',
-    'Client IP Address',
-    'The IP address of the browser corresponding to the event must' +
-      ' be a valid IPV4 or IPV6 address.',
-    false,
-    <ContextualHelp>
-      <Heading>Need help?</Heading>
-      <Content>
-        <p>IPV6 is preferable over IPV4 for IPV6-enabled users.</p>
-        <p>
-          The{' '}
-          <strong>
-            <code>client_ip_address</code>
-          </strong>{' '}
-          user data parameter must never be hashed. No spaces should be
-          included. Always provide the real IP address to ensure accurate event
-          reporting.
         </p>
       </Content>
     </ContextualHelp>

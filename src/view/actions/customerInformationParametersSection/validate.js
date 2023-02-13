@@ -22,5 +22,9 @@ export default (values) => {
     errors.clientUserAgent = 'Please provide a Client User Agent.';
   }
 
+  if (values?.lduEnabled && !values.clientIpAddress) {
+    errors.clientIpAddress = 'Please provide a Client IP address.';
+  }
+
   return errors;
 };

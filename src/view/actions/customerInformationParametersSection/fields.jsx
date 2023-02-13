@@ -27,11 +27,11 @@ import WrappedTextField from '../../components/wrappedTextField';
 
 import Parameters from './getParameters';
 
-export default function ServerEventParametersFields() {
+export default function CustomerInformationParametersFields() {
   const { watch } = useFormContext();
-  const [actionSource] = watch(['actionSource']);
+  const [actionSource, lduEnabled] = watch(['actionSource', 'lduEnabled']);
 
-  const customerInformation = Parameters({ actionSource });
+  const customerInformation = Parameters({ actionSource, lduEnabled });
 
   return (
     <View>

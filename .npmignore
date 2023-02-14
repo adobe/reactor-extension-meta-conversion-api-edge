@@ -5,5 +5,5 @@ createEntryFile.mjs
 webpack.*
 coverage
 jest.config.js
-facebook_conversions_api_extension-*.tgz
+adobe-reactor-extension-meta-conversion-api-edge-*.tgz
 package-facebook_conversions_api_extension-*.zip

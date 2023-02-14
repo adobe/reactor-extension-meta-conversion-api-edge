@@ -23,7 +23,15 @@ export default (values) => {
     'eventId',
     'actionSource'
   ].forEach((v) => {
-    if (values[v]) {
+    if (v === 'optOut') {
+      if (values[v] === 'true') {
+        result.optOut = true;
+      } else if (values[v] === 'false') {
+        result.optOut = false;
+      } else if (values[v]) {
+        result.optOut = values[v];
+      }
+    } else if (values[v]) {
       result[v] =
         v === 'actionSource'
           ? actionSources.getActionSourceId(values[v])

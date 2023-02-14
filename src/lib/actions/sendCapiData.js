@@ -122,7 +122,7 @@ const buildEventBody = (getSettings) => {
 module.exports = ({ utils }) => {
   const { getExtensionSettings, getSettings, fetch } = utils;
   const { pixelId, accessToken } = getExtensionSettings();
-  const version = 'v14.0';
+  const version = 'v15.0';
   const url = `https://graph.facebook.com/${version}/${pixelId}/events/?access_token=${accessToken}`;
 
   return fetch(url, buildEventBody(getSettings));

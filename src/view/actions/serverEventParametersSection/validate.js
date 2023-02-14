@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 import checkRequired from '../../utils/checkRequired';
 import CONSTANTS from '../../utils/constants';
+import { isDataElementToken } from '../../utils/validators';
 
 export default (values) => {
   const errors = {};
@@ -29,6 +30,15 @@ export default (values) => {
     !values.eventSourceUrl
   ) {
     errors.eventSourceUrl = 'Please provide the event source URL.';
+  }
+
+  if (
+    values?.eventSourceUrl &&
+    !isDataElementToken(values.eventSourceUrl) &&
+    !values.eventSourceUrl.match(/https?:\/\//)
+  ) {
+    errors.eventSourceUrl =
+      'The URL must begin with http://, https:// or be a data element.';
   }
 
   return errors;

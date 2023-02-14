@@ -14,7 +14,7 @@ export default ({ settings }) => {
     email: settings?.email || '',
     phone: settings?.phone || '',
     firstName: settings?.firstName || '',
-    lastName: settings?.laseName || '',
+    lastName: settings?.lastName || '',
     dob: settings?.dob || '',
     gender: settings?.gender || '',
     city: settings?.city || '',

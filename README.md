@@ -1,6 +1,8 @@
 # Meta's Conversions API extension for Event Forwarding
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/adobe/reactor-extension-meta-conversion-api-edge/node.js.yml?style=flat)](https://github.com/adobe/reactor-extension-meta-conversion-api-edge/actions)
+[![Coverage Status](https://coveralls.io/repos/github/adobe/reactor-extension-meta-conversion-api-edge/badge.svg?branch=main)](https://coveralls.io/github/adobe/reactor-extension-meta-conversion-api-edge?branch=main)
+[![npm (scoped with tag)](https://img.shields.io/npm/v/@adobe/reactor-extension-meta-conversion-api-edge.svg?style=flat)](https://www.npmjs.com/package/@adobe/reactor-extension-meta-conversion-api-edge)
 
 The Conversions API allows advertisers to send web events from their servers directly to Meta. Server events are linked to a pixel and are processed like browser pixel events. This means that server events are used in measurement, reporting, and optimization in the same way as browser pixel events. [Learn More](https://developers.facebook.com/docs/marketing-api/conversions-api).
 

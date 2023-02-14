@@ -15,7 +15,11 @@ import renderView from '../../__tests_helpers__/renderView';
 import SendCapiData from '../sendCapiData';
 import createExtensionBridge from '../../__tests_helpers__/createExtensionBridge';
 
-import { changeInputValue, click } from '../../__tests_helpers__/jsDomHelpers';
+import {
+  changeInputValue,
+  click,
+  changeComboboxValue
+} from '../../__tests_helpers__/jsDomHelpers';
 
 let extensionBridge;
 
@@ -245,8 +249,8 @@ describe('SendCapiData view', () => {
       testEventCheckbox
     } = getFormFields();
 
-    await changeInputValue(actionSourceInput, 'Web');
-    await changeInputValue(eventNameInput, 'CompleteRegistration');
+    await changeComboboxValue(actionSourceInput, 'Web');
+    await changeComboboxValue(eventNameInput, 'CompleteRegistration');
     await changeInputValue(eventTimeInput, '123456');
     await changeInputValue(eventSourceUrlInput, 'http://localhost');
     await changeInputValue(eventIdInput, 'ID123');

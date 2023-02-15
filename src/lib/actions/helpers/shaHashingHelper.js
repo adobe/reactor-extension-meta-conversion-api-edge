@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const sha256 = require('js-sha256/build/sha256.min.js');
+const sha256 = require('../../../../node_modules/js-sha256/build/sha256.min.js');
 const isSha256String = require('./isSha256String');
 
 module.exports = (data) => (isSha256String(data) ? data : sha256(data));

@@ -10,7 +10,17 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const sha256 = require('../../../../node_modules/js-sha256/build/sha256.min.js');
+const generateSha256 = async function sha256(str) {
+  const buf = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder('utf-8').encode(str)
+  );
+  return Array.prototype.map
+    .call(new Uint8Array(buf), (x) => ('00' + x.toString(16)).slice(-2))
+    .join('');
+};
+
 const isSha256String = require('./isSha256String');
 
-module.exports = (data) => (isSha256String(data) ? data : sha256(data));
+module.exports = async (data) =>
+  isSha256String(data) ? data : await generateSha256(data);

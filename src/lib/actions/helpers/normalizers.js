@@ -15,8 +15,8 @@ const shaHashingHelper = require('./shaHashingHelper');
 
 const pipe =
   (...fns) =>
-  (x) =>
-    fns.reduce((y, f) => f(y), x);
+  (arg) =>
+    fns.reduce((p, f) => p.then(f), Promise.resolve(arg));
 
 const trim = (v) => (typeof v === 'string' ? v.trim() : v);
 

@@ -21,8 +21,11 @@ import {
   Link,
   TextField,
   ContextualHelp,
-  View
+  View,
+  Text,
+  Badge
 } from '@adobe/react-spectrum';
+import Alert from '@spectrum-icons/workflow/Alert';
 import WrappedTextField from '../../components/wrappedTextField';
 
 import Parameters from './getParameters';
@@ -106,6 +109,16 @@ export default function CustomerInformationParametersFields() {
           );
         }
       )}
+      <Badge variant="info">
+        <Alert aria-label="Information about field hashing" />
+        <Text>
+          Before sending the data to the Meta Conversion API endpoint, the
+          extension will hash and normalize the values of the following fields:
+          <br />
+          Email, Phone Number, First Name, Last Name, Gender, Date of Birth,
+          City, State, Zip Code, Country, and External ID.
+        </Text>
+      </Badge>
     </View>
   );
 }

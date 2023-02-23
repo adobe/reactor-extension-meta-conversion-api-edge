@@ -3,7 +3,7 @@
   "name": "facebook_conversions_api_extension",
   "iconPath": "resources/icons/meta.svg",
   "platform": "edge",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
     "name": "Adobe",
@@ -18,12 +18,10 @@
       "type": "object",
       "properties": {
         "pixelId": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         },
         "accessToken": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         }
       },
       "additionalProperties": false,
@@ -39,103 +37,79 @@
         "type": "object",
         "properties": {
           "eventName": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "eventTime": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "eventSourceUrl": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "eventId": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "optOut": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "actionSource": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "lduEnabled": {
             "type": "boolean"
           },
           "email": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "firstName": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "lastName": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "dob": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "gender": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "city": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "state": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "zip": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "country": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "externalId": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "clientIpAddress": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "clientUserAgent": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "fbc": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "fbp": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "subscriptionId": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "fbLoginId": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "leadId": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "customData": {
             "oneOf": [
@@ -143,8 +117,7 @@
                 "type": "object"
               },
               {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               }
             ]
           },
@@ -152,8 +125,7 @@
             "type": "boolean"
           },
           "testEventCode": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           }
         },
         "additionalProperties": false,

@@ -3,13 +3,14 @@
   "name": "facebook_conversions_api_extension",
   "iconPath": "resources/icons/meta.svg",
   "platform": "edge",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
     "name": "Adobe",
-    "url": "http://adobe.com"
+    "url": "http://adobe.com",
+    "email": "customercare@adobe.com"
   },
-  "exchangeUrl": "https://partners.adobe.com/exchangeprogram/experiencecloud/exchange.details.105509.html",
+  "exchangeUrl": "https://exchange.adobe.com/apps/ec/109168/meta-conversions-api",
   "viewBasePath": "dist/",
   "configuration": {
     "viewPath": "configuration/configuration.html",

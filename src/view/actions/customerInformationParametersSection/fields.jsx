@@ -116,7 +116,9 @@ export default function CustomerInformationParametersFields() {
           extension will hash and normalize the values of the following fields:
           <br />
           Email, Phone Number, First Name, Last Name, Gender, Date of Birth,
-          City, State, Zip Code, Country, and External ID.
+          City, State, Zip Code, Country, and External ID. <br />
+          The extension will not hash the value of these fields if a SHA256
+          string is already present.
         </Text>
       </Badge>
     </View>

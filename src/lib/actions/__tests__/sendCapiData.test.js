@@ -77,4 +77,39 @@ describe('Send Conversion API data library module', () => {
       );
     });
   });
+
+  test('throws an error when a hashable value is not string or a number', async () => {
+    const fetch = jest.fn(() => Promise.resolve({}));
+
+    const extensionSettings = {
+      pixelId: 'ID123',
+      accessToken: 'token'
+    };
+
+    const settings = {
+      eventName: 'AddToCart',
+      eventTime: '1234',
+      eventSourceUrl: 'https://localhost',
+      optOut: true,
+      eventId: 'EV123',
+      actionSource: 'website',
+      lduEnabled: true,
+      email: { a: 'some@emai.com' },
+      phone: '1-123-456-7899'
+    };
+
+    const utils = {
+      fetch: fetch,
+      getSettings: () => settings,
+      getExtensionSettings: () => extensionSettings
+    };
+    try {
+      await sendCapiData({ arc, utils });
+    } catch (e) {
+      expect(e.message).toBe(
+        'The value of the "Email (em)" field is not a string or a number. ' +
+          'Cannot generate a SHA-256 string.'
+      );
+    }
+  });
 });

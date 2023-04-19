@@ -63,13 +63,29 @@ const withoutLeading0 = (v) =>
 
 //Based on requests from this page: https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters
 const normalizers = {
-  emailNormalizer: pipe(lowerCase, trim, shaHashingHelper),
-  phoneNumberNormalizer: pipe(onlyNumbers, withoutLeading0, shaHashingHelper),
-  nameNormalizer: pipe(lowerCase, shaHashingHelper),
-  cityNormalizer: pipe(lowerCase, shaHashingHelper),
-  stateNormalizer: pipe(lowerCase, shaHashingHelper),
-  zipNormalizer: pipe(noDash, noSpaces, shaHashingHelper),
-  countryNormalizer: pipe(lowerCase, shaHashingHelper)
+  emailNormalizer: pipe(
+    lowerCase,
+    trim,
+    shaHashingHelper.bind(null, 'Email (em)')
+  ),
+  phoneNumberNormalizer: pipe(
+    onlyNumbers,
+    withoutLeading0,
+    shaHashingHelper.bind(null, 'Phone (ph)')
+  ),
+  nameNormalizer: (fieldName, data) =>
+    pipe(lowerCase, shaHashingHelper.bind(null, fieldName))(data),
+  cityNormalizer: pipe(lowerCase, shaHashingHelper.bind(null, 'City (ct)')),
+  stateNormalizer: pipe(lowerCase, shaHashingHelper.bind(null, 'State (st)')),
+  zipNormalizer: pipe(
+    noDash,
+    noSpaces,
+    shaHashingHelper.bind(null, 'Zip (zp)')
+  ),
+  countryNormalizer: pipe(
+    lowerCase,
+    shaHashingHelper.bind(null, 'Country (country)')
+  )
 };
 
 module.exports = normalizers;

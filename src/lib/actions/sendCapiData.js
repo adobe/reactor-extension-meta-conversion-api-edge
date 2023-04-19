@@ -77,18 +77,26 @@ const buildEventBody = async (getSettings) => {
           client_user_agent: clientUserAgent,
           country: country ? await countryNormalizer(country) : undefined,
           ct: city ? await cityNormalizer(city) : undefined,
-          db: dob ? await shaHashingHelper(dob) : undefined,
+          db: dob
+            ? await shaHashingHelper('Date of birth (db)', dob)
+            : undefined,
           em: email ? await emailNormalizer(email) : undefined,
           external_id: externalId
-            ? await shaHashingHelper(externalId)
+            ? await shaHashingHelper('External ID (external_id)', externalId)
             : undefined,
           fb_login_id: fbLoginId ? fbLoginId : undefined,
           fbc: fbc ? fbc : undefined,
           fbp: fbp ? fbp : undefined,
-          fn: firstName ? await nameNormalizer(firstName) : undefined,
-          ge: gender ? await shaHashingHelper(gender) : undefined,
+          fn: firstName
+            ? await nameNormalizer('First Name (fn)', firstName)
+            : undefined,
+          ge: gender
+            ? await shaHashingHelper('Gender (ge)', gender)
+            : undefined,
           lead_id: leadId ? leadId : undefined,
-          ln: lastName ? await nameNormalizer(lastName) : undefined,
+          ln: lastName
+            ? await nameNormalizer('Last Name (ln)', lastName)
+            : undefined,
           ph: phone ? await phoneNumberNormalizer(phone) : undefined,
           st: state ? await stateNormalizer(state) : undefined,
           subscription_id: subscriptionId ? subscriptionId : undefined,

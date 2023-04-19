@@ -10,10 +10,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const isString = (value) =>
+  typeof value === 'string' || value instanceof String;
+
+const isNumber = (value) => typeof value === 'number';
+
 const generateSha256 = async function sha256(str) {
   const buf = await crypto.subtle.digest(
     'SHA-256',
-    new TextEncoder('utf-8').encode(str)
+    new TextEncoder('utf-8').encode(String(str))
   );
   return Array.prototype.map
     .call(new Uint8Array(buf), (x) => ('00' + x.toString(16)).slice(-2))
@@ -22,5 +27,12 @@ const generateSha256 = async function sha256(str) {
 
 const isSha256String = require('./isSha256String');
 
-module.exports = async (data) =>
-  isSha256String(data) ? data : await generateSha256(data);
+module.exports = async (fieldName, data) => {
+  if (!isString(data) && !isNumber(data)) {
+    throw new Error(
+      `The value of the "${fieldName}" field is not a string or a number. ` +
+        'Cannot generate a SHA-256 string.'
+    );
+  }
+  return isSha256String(data) ? data : await generateSha256(data);
+};

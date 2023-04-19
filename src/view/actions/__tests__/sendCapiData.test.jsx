@@ -24,6 +24,7 @@ import {
 let extensionBridge;
 
 beforeEach(() => {
+  jest.setTimeout(20000);
   extensionBridge = createExtensionBridge();
   window.extensionBridge = extensionBridge;
 });

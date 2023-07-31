@@ -46,7 +46,7 @@ describe('Send Conversion API data library module', () => {
 
     return sendCapiData({ arc, utils }).then(() => {
       expect(fetch).toHaveBeenCalledWith(
-        'https://graph.facebook.com/v15.0/ID123/events/?access_token=token',
+        'https://graph.facebook.com/v17.0/ID123/events/?access_token=token',
         {
           method: 'POST',
           headers: { 'content-type': 'application/json' },

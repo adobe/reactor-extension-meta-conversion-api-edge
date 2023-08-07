@@ -289,5 +289,7 @@ export default ({ actionSource, lduEnabled } = {}) => [
       </Link>
       .
     </Text>
-  ]
+  ],
+  ['partnerName', 'Partner Name'],
+  ['partnerId', 'Partner ID']
 ];

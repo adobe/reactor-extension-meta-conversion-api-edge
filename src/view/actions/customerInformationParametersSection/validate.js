@@ -26,5 +26,15 @@ export default (values) => {
     errors.clientIpAddress = 'Please provide a Client IP address.';
   }
 
+  if (values?.partnerName && !values.partnerId) {
+    errors.partnerId =
+      ' If you provide the partner name, then you must also provide partner ID."';
+  }
+
+  if (values?.partnerId && !values.partnerName) {
+    errors.partnerName =
+      ' If you provide the partner ID, then you must also provide partner name."';
+  }
+
   return errors;
 };

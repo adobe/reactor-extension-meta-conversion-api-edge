@@ -31,7 +31,9 @@ export default (values) => {
     'fbp',
     'subscriptionId',
     'fbLoginId',
-    'leadId'
+    'leadId',
+    'partnerId',
+    'partnerName'
   ].forEach((v) => {
     if (values[v]) {
       result[v] = values[v];

@@ -56,7 +56,9 @@ const buildEventBody = async (getSettings) => {
     state,
     subscriptionId,
     testEventCode,
-    zip
+    zip,
+    partnerId,
+    partnerName
   } = getSettings();
 
   const body = {
@@ -100,7 +102,9 @@ const buildEventBody = async (getSettings) => {
           ph: phone ? await phoneNumberNormalizer(phone) : undefined,
           st: state ? await stateNormalizer(state) : undefined,
           subscription_id: subscriptionId ? subscriptionId : undefined,
-          zp: zip ? await zipNormalizer(zip) : undefined
+          zp: zip ? await zipNormalizer(zip) : undefined,
+          partner_name: partnerName ? partnerName : undefined,
+          partner_id: partnerId ? partnerId : undefined
         }
       }
     ],

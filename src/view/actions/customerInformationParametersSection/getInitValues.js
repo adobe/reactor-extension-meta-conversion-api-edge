@@ -28,6 +28,8 @@ export default ({ settings }) => {
     fbp: settings?.fbp || '',
     subscriptionId: settings?.subscriptionId || '',
     fbLoginId: settings?.fbLoginId || '',
-    leadId: settings?.leadId || ''
+    leadId: settings?.leadId || '',
+    partnerId: settings?.partnerId || '',
+    partnerName: settings?.partnerName || ''
   };
 };

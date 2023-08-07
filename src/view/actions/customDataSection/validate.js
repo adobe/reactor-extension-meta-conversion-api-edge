@@ -38,8 +38,8 @@ export default ({
     return errors;
   }
 
-  if (customDataType === 'raw' && customDataRaw) {
-    if (!isDataElementToken(customDataRaw)) {
+  if (customDataType === 'raw') {
+    if (customDataRaw && !isDataElementToken(customDataRaw)) {
       const { result, parsedJson } = parseJson(customDataRaw);
 
       if (!result) {
@@ -54,6 +54,13 @@ export default ({
         errors.customDataRaw =
           'The custom data needs to contain the "currency" and "value" keys for Purchase events.';
       }
+    } else if (
+      !customDataRaw &&
+      eventName &&
+      eventName.toLowerCase() === CONSTANTS.PURCHASE
+    ) {
+      errors.customDataRaw =
+        'The custom data needs to contain the "currency" and "value" keys for Purchase events.';
     }
   }
 

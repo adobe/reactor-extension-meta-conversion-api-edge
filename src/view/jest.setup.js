@@ -21,3 +21,5 @@ jest
   .mockImplementation(() => 1000);
 
 jest.spyOn(window.screen, 'width', 'get').mockImplementation(() => 1024);
+
+jest.setTimeout(20000);

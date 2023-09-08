@@ -19,52 +19,98 @@ import {
   Link,
   TextField,
   ContextualHelp,
-  Heading
+  Heading,
+  View,
+  Image,
+  Text,
+  Button
 } from '@adobe/react-spectrum';
 import WrappedTextField from '../../components/wrappedTextField';
+import emqImage from '../../../../resources/images/emq2.png';
+
+const goToEmq = () => {
+  window.open('https://business.facebook.com/events_manager/', '_blank');
+};
 
 export default function ConfigurationFields() {
   return (
-    <Flex direction="column" gap="size-65">
-      <WrappedTextField
-        name="pixelId"
-        component={TextField}
-        width="size-4600"
-        label="Pixel ID"
-        isRequired
-        necessityIndicator="label"
-        supportDataElement
-      />
+    <Flex gap="size-300" direction="row" wrap="wrap">
+      <Flex direction="column" gap="size-65">
+        <Heading>Settings</Heading>
 
-      <WrappedTextField
-        name="accessToken"
-        component={TextField}
-        width="size-4600"
-        label="Access Token"
-        isRequired
-        necessityIndicator="label"
-        supportDataElement
-        contextualHelp={
-          <ContextualHelp>
-            <Heading>Need help?</Heading>
-            <Content>
-              <p>
-                A Meta System User access token is required to send events via
-                Conversions API.
-              </p>
-              <Link>
-                <a
-                  href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started#via-events-manager"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  How to generate a System User access token via Events Manager
-                </a>
-              </Link>
-            </Content>
-          </ContextualHelp>
-        }
-      />
+        <WrappedTextField
+          name="pixelId"
+          component={TextField}
+          width="size-4600"
+          label="Pixel ID"
+          isRequired
+          necessityIndicator="label"
+          supportDataElement
+        />
+
+        <WrappedTextField
+          name="accessToken"
+          component={TextField}
+          width="size-4600"
+          label="Access Token"
+          isRequired
+          necessityIndicator="label"
+          supportDataElement
+          contextualHelp={
+            <ContextualHelp>
+              <Heading>Need help?</Heading>
+              <Content>
+                <p>
+                  A Meta System User access token is required to send events via
+                  Conversions API.
+                </p>
+                <Link>
+                  <a
+                    href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started#via-events-manager"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    How to generate a System User access token via Events
+                    Manager
+                  </a>
+                </Link>
+              </Content>
+            </ContextualHelp>
+          }
+        />
+      </Flex>
+      <View minWidth="size-4600" maxWidth="size-4600">
+        <Heading UNSAFE_style={{ textAlign: 'center' }}>
+          Conversion API Event Match <br />
+          Quality (EMQ)
+        </Heading>
+        <div style={{ textAlign: 'justify' }}>
+          The EMQ score is a metric that indicates how effective the customer
+          information sent from the Conversion API may be to matching to a Meta
+          account. You can view your event match quality in{' '}
+          <Link>
+            <a
+              href="https://business.facebook.com/events_manager/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Events Manager
+            </a>
+          </Link>
+          .
+        </div>
+        <View marginTop="size-200">
+          <Image src={emqImage} />
+          <Text UNSAFE_style={{ fontStyle: 'italic', color: '#757575' }}>
+            &nbsp;&nbsp;Illustration purposes only
+          </Text>
+        </View>
+        <View marginTop="size-200" UNSAFE_style={{ textAlign: 'center' }}>
+          <Button variant="accent" onPress={goToEmq}>
+            <Text>View EMQ Score</Text>
+          </Button>
+        </View>
+      </View>
     </Flex>
   );
 }

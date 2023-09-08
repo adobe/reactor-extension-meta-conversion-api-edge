@@ -290,6 +290,6 @@ export default ({ actionSource, lduEnabled } = {}) => [
       .
     </Text>
   ],
-  ['partnerName', 'Partner Name'],
-  ['partnerId', 'Partner ID']
+  ['partnerName', 'Partner Name (alpha)'],
+  ['partnerId', 'Partner ID (alpha)']
 ];

@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 import {
   Content,
   Flex,
@@ -26,13 +27,22 @@ import {
   Button
 } from '@adobe/react-spectrum';
 import WrappedTextField from '../../components/wrappedTextField';
-import emqImage from '../../../../resources/images/emq2.png';
+import emqImage from '../../../../resources/images/emq.png';
+import { isDataElementToken } from '../../utils/validators';
 
-const goToEmq = () => {
-  window.open('https://business.facebook.com/events_manager/', '_blank');
+const goToEmq = (pixelId) => {
+  window.open(
+    `https://business.facebook.com/events_manager2/${
+      pixelId ? `list/dataset/${pixelId}/overview` : ''
+    }`,
+    '_blank'
+  );
 };
 
 export default function ConfigurationFields() {
+  const { watch } = useFormContext();
+  const [pixelId] = watch(['pixelId']);
+
   return (
     <Flex gap="size-300" direction="row" wrap="wrap">
       <Flex direction="column" gap="size-65">
@@ -79,6 +89,7 @@ export default function ConfigurationFields() {
           }
         />
       </Flex>
+
       <View minWidth="size-4600" maxWidth="size-4600">
         <Heading UNSAFE_style={{ textAlign: 'center' }}>
           Conversion API Event Match <br />
@@ -105,11 +116,18 @@ export default function ConfigurationFields() {
             &nbsp;&nbsp;Illustration purposes only
           </Text>
         </View>
-        <View marginTop="size-200" UNSAFE_style={{ textAlign: 'center' }}>
-          <Button variant="accent" onPress={goToEmq}>
-            <Text>View EMQ Score</Text>
-          </Button>
-        </View>
+        {pixelId && !isDataElementToken(pixelId) && (
+          <View marginTop="size-200" UNSAFE_style={{ textAlign: 'center' }}>
+            <Button
+              variant="accent"
+              onPress={() => {
+                goToEmq(pixelId);
+              }}
+            >
+              <Text>View EMQ Score</Text>
+            </Button>
+          </View>
+        )}
       </View>
     </Flex>
   );

@@ -111,7 +111,7 @@ export default function ConfigurationFields() {
           .
         </div>
         <View marginTop="size-200">
-          <Image src={emqImage} />
+          <Image src={emqImage} alt="EMQ" />
           <Text UNSAFE_style={{ fontStyle: 'italic', color: '#757575' }}>
             &nbsp;&nbsp;Illustration purposes only
           </Text>

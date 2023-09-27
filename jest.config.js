@@ -21,7 +21,8 @@ module.exports = {
       },
       modulePathIgnorePatterns: ['<rootDir>/src/lib/'],
       transform: {
-        '^.+\\.[t|j]sx?$': 'babel-jest'
+        '^.+\\.[t|j]sx?$': 'babel-jest',
+        '.+\\.(css|scss|png|jpg|svg)$': 'jest-transform-stub'
       }
     },
     {

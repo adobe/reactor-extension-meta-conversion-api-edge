@@ -2,6 +2,7 @@
   "name": "@adobe/reactor-extension-meta-conversion-api-edge",
   "platform": "edge",
   "version": "1.4.0",
+  "apiVersion": "v18.0",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
     "name": "Adobe",
@@ -29,14 +30,14 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@adobe/react-spectrum": "^3.30.0",
-    "@spectrum-icons/illustrations": "^3.6.5",
-    "@spectrum-icons/workflow": "^4.2.4",
+    "@adobe/react-spectrum": "^3.31.0",
+    "@spectrum-icons/illustrations": "^3.6.6",
+    "@spectrum-icons/workflow": "^4.2.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.46.2",
-    "react-stately": "^3.26.0"
+    "react-hook-form": "^7.47.0",
+    "react-stately": "^3.27.0"
   },
   "devDependencies": {
     "@adobe/reactor-sandbox": "^12.5.0",
@@ -57,7 +58,7 @@
     "capitalize": "^2.0.4",
     "concurrently": "^8.2.1",
     "css-loader": "^6.8.1",
-    "eslint": "^8.50.0",
+    "eslint": "^8.51.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-header": "^3.1.1",

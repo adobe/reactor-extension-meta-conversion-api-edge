@@ -18,7 +18,9 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { View } from '@adobe/react-spectrum';
 import PropTypes from 'prop-types';
 import ErrorBoundary from './errorBoundary';
-// import DisplayFormState from './displayFormState';
+import { updateFetchSettings } from '../utils/fetch';
+
+let id = 0;
 
 const ExtensionView = function ExtensionView({
   getInitialValues,
@@ -26,7 +28,7 @@ const ExtensionView = function ExtensionView({
   validate,
   render
 }) {
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [initId, setInitId] = useState(0);
 
   const methods = useForm({
     mode: 'onBlur',
@@ -42,13 +44,22 @@ const ExtensionView = function ExtensionView({
     let initInfo;
 
     window.extensionBridge.register({
-      init: (_initInfo = {}) => {
-        setIsInitialized(false);
+      init: async (_initInfo = {}) => {
+        setInitId(false);
 
         initInfo = _initInfo;
-        methods.reset(getInitialValues({ initInfo }));
 
-        setIsInitialized(true);
+        updateFetchSettings({
+          apiEndpoint: initInfo.apiEndpoints?.reactor,
+          imsOrgId: initInfo.company.orgId,
+          token: initInfo.tokens.imsAccess,
+          propertyId: initInfo.propertySettings.id
+        });
+
+        methods.reset(await getInitialValues({ initInfo }));
+
+        id += 1;
+        setInitId(id);
       },
 
       getSettings: () =>
@@ -62,8 +73,8 @@ const ExtensionView = function ExtensionView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return isInitialized ? (
-    <View margin="size-200">
+  return initId > 0 ? (
+    <View margin="size-200" key={id}>
       <ErrorBoundary>
         <FormProvider
           // eslint-disable-next-line react/jsx-props-no-spreading

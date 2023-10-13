@@ -32,82 +32,84 @@ afterEach(() => {
   delete window.extensionBridge;
 });
 
-const getFormFields = () => ({
-  actionSourceInput: screen.getByLabelText(/action source/i, {
+const getFormFields = async () => ({
+  actionSourceInput: await screen.findByLabelText(/action source/i, {
     selector: '[name="actionSource"]'
   }),
-  eventNameInput: screen.getByLabelText(/event name/i, {
+  eventNameInput: await screen.findByLabelText(/event name/i, {
     selector: '[name="eventName"]'
   }),
-  eventTimeInput: screen.getByLabelText(/event time/i, {
+  eventTimeInput: await screen.findByLabelText(/event time/i, {
     selector: '[name="eventTime"]'
   }),
-  eventSourceUrlInput: screen.getByLabelText(/event source url/i, {
+  eventSourceUrlInput: await screen.findByLabelText(/event source url/i, {
     selector: '[name="eventSourceUrl"]'
   }),
-  eventIdInput: screen.getByLabelText(/event id/i, {
+  eventIdInput: await screen.findByLabelText(/event id/i, {
     selector: '[name="eventId"]'
   }),
-  optOutInput: screen.getByLabelText(/opt out/i, {
+  optOutInput: await screen.findByLabelText(/opt out/i, {
     selector: '[name="optOut"]'
   }),
-  limitedDataUseCheckbox: screen.getByLabelText(/enable limited data use/i),
-  clientIpAddressInput: screen.getByLabelText(/client ip address/i, {
+  limitedDataUseCheckbox: await screen.findByLabelText(
+    /enable limited data use/i
+  ),
+  clientIpAddressInput: await screen.findByLabelText(/client ip address/i, {
     selector: '[name="clientIpAddress"]'
   }),
-  clientUserAgentInput: screen.getByLabelText(/client user agent/i, {
+  clientUserAgentInput: await screen.findByLabelText(/client user agent/i, {
     selector: '[name="clientUserAgent"]'
   }),
-  emailInput: screen.getByLabelText(/email/i, {
+  emailInput: await screen.findByLabelText(/email/i, {
     selector: '[name="email"]'
   }),
-  phoneInput: screen.getByLabelText(/phone/i, {
+  phoneInput: await screen.findByLabelText(/phone/i, {
     selector: '[name="phone"]'
   }),
-  genderInput: screen.getByLabelText(/gender/i, {
+  genderInput: await screen.findByLabelText(/gender/i, {
     selector: '[name="gender"]'
   }),
-  dobInput: screen.getByLabelText(/date of birth/i, {
+  dobInput: await screen.findByLabelText(/date of birth/i, {
     selector: '[name="dob"]'
   }),
-  lastNameInput: screen.getByLabelText(/last name/i, {
+  lastNameInput: await screen.findByLabelText(/last name/i, {
     selector: '[name="lastName"]'
   }),
-  firstNameInput: screen.getByLabelText(/first name/i, {
+  firstNameInput: await screen.findByLabelText(/first name/i, {
     selector: '[name="firstName"]'
   }),
-  cityInput: screen.getByLabelText(/city/i, {
+  cityInput: await screen.findByLabelText(/city/i, {
     selector: '[name="city"]'
   }),
-  stateInput: screen.getByLabelText(/state/i, {
+  stateInput: await screen.findByLabelText(/state/i, {
     selector: '[name="state"]'
   }),
-  zipInput: screen.getByLabelText(/zip/i, {
+  zipInput: await screen.findByLabelText(/zip/i, {
     selector: '[name="zip"]'
   }),
-  countryInput: screen.getByLabelText(/country/i, {
+  countryInput: await screen.findByLabelText(/country/i, {
     selector: '[name="country"]'
   }),
-  externalIdInput: screen.getByLabelText(/external id/i, {
+  externalIdInput: await screen.findByLabelText(/external id/i, {
     selector: '[name="externalId"]'
   }),
-  clickIdInput: screen.getByLabelText(/click id/i, {
+  clickIdInput: await screen.findByLabelText(/click id/i, {
     selector: '[name="fbc"]'
   }),
-  browserIdInput: screen.getByLabelText(/browser id/i, {
+  browserIdInput: await screen.findByLabelText(/browser id/i, {
     selector: '[name="fbp"]'
   }),
-  subscriptionIdInput: screen.getByLabelText(/subscription id/i, {
+  subscriptionIdInput: await screen.findByLabelText(/subscription id/i, {
     selector: '[name="subscriptionId"]'
   }),
-  metaLoginIdInput: screen.getByLabelText(/meta login id/i, {
+  metaLoginIdInput: await screen.findByLabelText(/meta login id/i, {
     selector: '[name="fbLoginId"]'
   }),
-  leadIdInput: screen.getByLabelText(/lead id/i, {
+  leadIdInput: await screen.findByLabelText(/lead id/i, {
     selector: '[name="leadId"]'
   }),
-  customDataRawTextarea: screen.getByLabelText(/custom data raw/i),
-  testEventCheckbox: screen.getByLabelText(/send as test event/i),
+  customDataRawTextarea: await screen.findByLabelText(/custom data raw/i),
+  testEventCheckbox: await screen.findByLabelText(/send as test event/i),
   testEventCodeInput: screen.queryByLabelText(/test event code/i, {
     selector: '[name="testEventCode"]'
   })
@@ -117,7 +119,7 @@ describe('SendCapiData view', () => {
   test('sets form values from settings', async () => {
     renderView(SendCapiData);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         actionSource: 'Web',
         eventName: 'CompleteRegistration',
@@ -181,7 +183,7 @@ describe('SendCapiData view', () => {
       customDataRawTextarea,
       testEventCheckbox,
       testEventCodeInput
-    } = getFormFields();
+    } = await getFormFields();
 
     expect(actionSourceInput.value).toBe('Web');
     expect(eventNameInput.value).toBe('CompleteRegistration');
@@ -217,7 +219,7 @@ describe('SendCapiData view', () => {
   test('sets settings from form values', async () => {
     renderView(SendCapiData);
 
-    extensionBridge.init({ isTestEvent: true });
+    await extensionBridge.init({ isTestEvent: true });
 
     const {
       actionSourceInput,
@@ -247,7 +249,7 @@ describe('SendCapiData view', () => {
       leadIdInput,
       customDataRawTextarea,
       testEventCheckbox
-    } = getFormFields();
+    } = await getFormFields();
 
     await changeComboboxValue(actionSourceInput, 'Web');
     await changeComboboxValue(eventNameInput, 'CompleteRegistration');
@@ -277,7 +279,7 @@ describe('SendCapiData view', () => {
     await changeInputValue(customDataRawTextarea, '{{"a":"b"}');
     await click(testEventCheckbox);
 
-    const { testEventCodeInput } = getFormFields();
+    const { testEventCodeInput } = await getFormFields();
     await changeInputValue(testEventCodeInput, '1111');
 
     expect(extensionBridge.getSettings()).toEqual({
@@ -317,7 +319,7 @@ describe('SendCapiData view', () => {
   test('handles form validation correctly', async () => {
     renderView(SendCapiData);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: { lduEnabled: true }
     });
 
@@ -326,7 +328,7 @@ describe('SendCapiData view', () => {
       eventNameInput,
       eventTimeInput,
       clientIpAddressInput
-    } = getFormFields();
+    } = await getFormFields();
 
     await extensionBridge.validate();
 
@@ -339,11 +341,11 @@ describe('SendCapiData view', () => {
   test('handles form validation correctly when action source is website', async () => {
     renderView(SendCapiData);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: { actionSource: 'website' }
     });
 
-    const { eventSourceUrlInput, clientUserAgentInput } = getFormFields();
+    const { eventSourceUrlInput, clientUserAgentInput } = await getFormFields();
 
     await extensionBridge.validate();
 

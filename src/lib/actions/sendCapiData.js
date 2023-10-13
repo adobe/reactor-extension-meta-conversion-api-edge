@@ -22,6 +22,7 @@ const {
   zipNormalizer,
   countryNormalizer
 } = require('./helpers/normalizers');
+const version = require('./helpers/apiVersion');
 const { isString, isObject } = require('./helpers/validators');
 const parseCustomData = require('./helpers/parseCustomData');
 const lduValue = 'LDU';
@@ -136,7 +137,6 @@ const buildEventBody = async (getSettings) => {
 module.exports = async ({ utils }) => {
   const { getExtensionSettings, getSettings, fetch } = utils;
   const { pixelId, accessToken } = getExtensionSettings();
-  const version = 'v17.0';
   const url = `https://graph.facebook.com/${version}/${pixelId}/events/?access_token=${accessToken}`;
 
   return fetch(url, await buildEventBody(getSettings));

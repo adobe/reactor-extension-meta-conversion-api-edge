@@ -10,6 +10,7 @@ governing permissions and limitations under the License.
 */
 
 const sendCapiData = require('../sendCapiData');
+const apiVersion = require('../helpers/apiVersion');
 const arc = {};
 
 describe('Send Conversion API data library module', () => {
@@ -46,7 +47,7 @@ describe('Send Conversion API data library module', () => {
 
     return sendCapiData({ arc, utils }).then(() => {
       expect(fetch).toHaveBeenCalledWith(
-        'https://graph.facebook.com/v17.0/ID123/events/?access_token=token',
+        `https://graph.facebook.com/${apiVersion}/ID123/events/?access_token=token`,
         {
           method: 'POST',
           headers: { 'content-type': 'application/json' },

@@ -1,5 +1,5 @@
 /*
-Copyright 2022 Adobe. All rights reserved.
+Copyright 2023 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,10 +10,20 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-export default {
-  WEBSITE: 'website',
-  PURCHASE: 'purchase',
-  API_PRODUCTION_URL: 'https://reactor.adobe.io',
-  API_STAGE_URL: 'https://reactor-dev.adobe.io',
-  CLIENT_ID: 'Activation-DTM'
+import fetch, { getFetchSettings } from '../../utils/fetch';
+
+export default () => {
+  const { propertyId } = getFetchSettings();
+
+  const url =
+    `/properties/${propertyId}/extensions?page[size]=1&` +
+    'filter[name]=EQ%20core';
+
+  return fetch(url).catch((e) => {
+    if (e instanceof TypeError) {
+      throw new Error(`${e.message} when loading ${url}`);
+    } else {
+      throw e;
+    }
+  });
 };

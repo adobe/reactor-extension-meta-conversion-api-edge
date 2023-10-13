@@ -28,9 +28,11 @@ afterEach(() => {
   delete window.extensionBridge;
 });
 
-const getFromFields = () => ({
-  pixelIdInput: screen.getByLabelText(/pixel id/i),
-  accessTokenInput: screen.queryByLabelText(/access token/i, {
+const getFromFields = async () => ({
+  pixelIdInput: await screen.findByLabelText(/pixel id/i, {
+    selector: '[name="pixelId"]'
+  }),
+  accessTokenInput: await screen.findByLabelText(/access token/i, {
     selector: '[name="accessToken"]'
   })
 });
@@ -39,14 +41,14 @@ describe('Configuration view', () => {
   test('sets form values from settings', async () => {
     renderView(Configuration);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         pixelId: '12345',
         accessToken: '54321'
       }
     });
 
-    const { pixelIdInput, accessTokenInput } = getFromFields();
+    const { pixelIdInput, accessTokenInput } = await getFromFields();
 
     expect(pixelIdInput.value).toBe('12345');
     expect(accessTokenInput.value).toBe('54321');
@@ -55,14 +57,14 @@ describe('Configuration view', () => {
   test('sets settings from form values', async () => {
     renderView(Configuration);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         pixelId: '12345',
         accessToken: '54321'
       }
     });
 
-    const { pixelIdInput, accessTokenInput } = getFromFields();
+    const { pixelIdInput, accessTokenInput } = await getFromFields();
 
     await changeInputValue(pixelIdInput, '123456');
     await changeInputValue(accessTokenInput, '111111');
@@ -76,14 +78,14 @@ describe('Configuration view', () => {
   test('handles form validation correctly', async () => {
     renderView(Configuration);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         pixelId: '12345',
         accessToken: '5555'
       }
     });
 
-    const { pixelIdInput, accessTokenInput } = getFromFields();
+    const { pixelIdInput, accessTokenInput } = await getFromFields();
 
     expect(pixelIdInput).not.toHaveAttribute('aria-invalid');
     expect(accessTokenInput).not.toHaveAttribute('aria-invalid');

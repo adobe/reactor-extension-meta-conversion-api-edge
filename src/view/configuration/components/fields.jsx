@@ -20,28 +20,27 @@ import {
   Link,
   TextField,
   ContextualHelp,
-  Heading,
-  View,
-  Image,
-  Text,
-  Button
+  Heading
 } from '@adobe/react-spectrum';
-import WrappedTextField from '../../components/wrappedTextField';
-import emqImage from '../../../../resources/images/emq.png';
-import { isDataElementToken } from '../../utils/validators';
 
-const goToEmq = (pixelId) => {
-  window.open(
-    `https://business.facebook.com/events_manager2/${
-      pixelId ? `list/dataset/${pixelId}/overview` : ''
-    }`,
-    '_blank'
-  );
-};
+import WrappedTextField from '../../components/wrappedTextField';
+import fetchDataAndSetupAccount from '../helpers/fetchDataAndSetupAccount';
+import EmqArea from './emqArea';
+import ConnectToMetaButton from './connectToMetaButton';
 
 export default function ConfigurationFields() {
-  const { watch } = useFormContext();
-  const [pixelId] = watch(['pixelId']);
+  const { watch, setValue } = useFormContext();
+  const [pixelId, accessToken] = watch(['pixelId', 'accessToken']);
+
+  const [showMbeArea, setShowMbeArea] = React.useState(false);
+  const [showConnectToMetaButton, setShowConnectToMetaButton] =
+    React.useState(false);
+
+  React.useEffect(() => {
+    setShowConnectToMetaButton(!pixelId && !accessToken);
+    setShowMbeArea(Boolean(pixelId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Flex gap="size-300" direction="row" wrap="wrap">
@@ -88,47 +87,21 @@ export default function ConfigurationFields() {
             </ContextualHelp>
           }
         />
+
+        {showConnectToMetaButton && (
+          <ConnectToMetaButton
+            onPress={() =>
+              fetchDataAndSetupAccount({
+                setValue,
+                setShowConnectToMetaButton,
+                setShowMbeArea
+              })
+            }
+          />
+        )}
       </Flex>
 
-      <View minWidth="size-4600" maxWidth="size-4600">
-        <Heading UNSAFE_style={{ textAlign: 'center' }}>
-          Conversion API Event Match <br />
-          Quality (EMQ)
-        </Heading>
-        <div style={{ textAlign: 'justify' }}>
-          The EMQ score is a metric that indicates how effective the customer
-          information sent from the Conversion API may be to matching to a Meta
-          account. You can view your event match quality in{' '}
-          <Link>
-            <a
-              href="https://business.facebook.com/events_manager/"
-              rel="noreferrer"
-              target="_blank"
-            >
-              Events Manager
-            </a>
-          </Link>
-          .
-        </div>
-        <View marginTop="size-200">
-          <Image src={emqImage} alt="EMQ" />
-          <Text UNSAFE_style={{ fontStyle: 'italic', color: '#757575' }}>
-            &nbsp;&nbsp;Illustration purposes only
-          </Text>
-        </View>
-        {pixelId && !isDataElementToken(pixelId) && (
-          <View marginTop="size-200" UNSAFE_style={{ textAlign: 'center' }}>
-            <Button
-              variant="accent"
-              onPress={() => {
-                goToEmq(pixelId);
-              }}
-            >
-              <Text>View EMQ Score</Text>
-            </Button>
-          </View>
-        )}
-      </View>
+      {showMbeArea && <EmqArea pixelId={pixelId} />}
     </Flex>
   );
 }

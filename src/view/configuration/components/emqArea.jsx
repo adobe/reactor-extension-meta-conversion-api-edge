@@ -73,6 +73,8 @@ export default function ConfigurationFields({ pixelId }) {
   React.useEffect(() => {
     if (!isDataElementToken(pixelId) && !emqAccessToken) {
       setShowConnectToMetaButton(true);
+    } else {
+      setShowConnectToMetaButton(false);
     }
 
     if (!isDataElementToken(pixelId) && emqAccessToken) {

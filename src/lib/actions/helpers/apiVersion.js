@@ -10,6 +10,4 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const packageJson = require('../../../../package.json');
-
-module.exports = packageJson.apiVersion;
+module.exports = 'v18.0';

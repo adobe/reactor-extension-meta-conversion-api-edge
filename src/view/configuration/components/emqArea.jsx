@@ -38,15 +38,11 @@ const calculateVariant = (scoreRating) => {
     return 'positive';
   }
 
-  if (scoreRating === 'ok') {
-    return 'warning';
-  }
-
-  if (scoreRating === 'none') {
+  if (scoreRating === 'none' || scoreRating === 'ok') {
     return '';
   }
 
-  return 'critical';
+  return 'warning';
 };
 
 const goToEmq = (pixelId) => {

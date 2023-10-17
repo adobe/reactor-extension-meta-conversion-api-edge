@@ -112,6 +112,12 @@ const getFormFields = async () => ({
   testEventCheckbox: await screen.findByLabelText(/send as test event/i),
   testEventCodeInput: screen.queryByLabelText(/test event code/i, {
     selector: '[name="testEventCode"]'
+  }),
+  pixelIdInput: await screen.findByLabelText(/pixel id/i, {
+    selector: '[name="pixelId"]'
+  }),
+  accessTokenInput: await screen.findByLabelText(/access token/i, {
+    selector: '[name="accessToken"]'
   })
 });
 
@@ -150,7 +156,9 @@ describe('SendCapiData view', () => {
           a: 'b'
         },
         isTestEvent: true,
-        testEventCode: '1111'
+        testEventCode: '1111',
+        pixelId: '111',
+        accessToken: 'token'
       }
     });
 
@@ -182,7 +190,9 @@ describe('SendCapiData view', () => {
       leadIdInput,
       customDataRawTextarea,
       testEventCheckbox,
-      testEventCodeInput
+      testEventCodeInput,
+      pixelIdInput,
+      accessTokenInput
     } = await getFormFields();
 
     expect(actionSourceInput.value).toBe('Web');
@@ -214,6 +224,8 @@ describe('SendCapiData view', () => {
     expect(customDataRawTextarea.value).toBe('{\n  "a": "b"\n}');
     expect(testEventCheckbox).toBeChecked();
     expect(testEventCodeInput.value).toBe('1111');
+    expect(pixelIdInput.value).toBe('111');
+    expect(accessTokenInput.value).toBe('token');
   });
 
   test('sets settings from form values', async () => {
@@ -248,7 +260,9 @@ describe('SendCapiData view', () => {
       metaLoginIdInput,
       leadIdInput,
       customDataRawTextarea,
-      testEventCheckbox
+      testEventCheckbox,
+      pixelIdInput,
+      accessTokenInput
     } = await getFormFields();
 
     await changeComboboxValue(actionSourceInput, 'Web');
@@ -278,6 +292,8 @@ describe('SendCapiData view', () => {
     await changeInputValue(leadIdInput, '112');
     await changeInputValue(customDataRawTextarea, '{{"a":"b"}');
     await click(testEventCheckbox);
+    await changeInputValue(pixelIdInput, '112');
+    await changeInputValue(accessTokenInput, '112');
 
     const { testEventCodeInput } = await getFormFields();
     await changeInputValue(testEventCodeInput, '1111');
@@ -312,7 +328,9 @@ describe('SendCapiData view', () => {
         a: 'b'
       },
       isTestEvent: true,
-      testEventCode: '1111'
+      testEventCode: '1111',
+      pixelId: '112',
+      accessToken: '112'
     });
   });
 

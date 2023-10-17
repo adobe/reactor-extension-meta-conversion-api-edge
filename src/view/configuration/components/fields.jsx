@@ -20,40 +20,57 @@ import {
   Link,
   TextField,
   ContextualHelp,
-  Heading
+  Heading,
+  Badge,
+  Text
 } from '@adobe/react-spectrum';
 
+import Info from '@spectrum-icons/workflow/Info';
 import WrappedTextField from '../../components/wrappedTextField';
 import fetchDataAndSetupAccount from '../helpers/fetchDataAndSetupAccount';
 import EmqArea from './emqArea';
 import ConnectToMetaButton from './connectToMetaButton';
 
-export default function ConfigurationFields() {
+export default function ConfigurationFields({ mode }) {
   const { watch, setValue } = useFormContext();
   const [pixelId, accessToken] = watch(['pixelId', 'accessToken']);
 
-  const [showMbeArea, setShowMbeArea] = React.useState(false);
+  const [showEmqArea, setShowEmqArea] = React.useState(false);
   const [showConnectToMetaButton, setShowConnectToMetaButton] =
     React.useState(false);
 
   React.useEffect(() => {
     setShowConnectToMetaButton(!pixelId && !accessToken);
-    setShowMbeArea(Boolean(pixelId));
+    setShowEmqArea(Boolean(pixelId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Flex gap="size-300" direction="row" wrap="wrap">
       <Flex direction="column" gap="size-65">
-        <Heading>Settings</Heading>
+        {mode === 'override' && (
+          <>
+            <Heading level="3">Configuration Overrides</Heading>
+
+            <Badge variant="info">
+              <Info aria-label="Information about configuration overrides section" />
+              <Text>
+                Use this section to override any settings defined inside the
+                extension configuration.
+              </Text>
+            </Badge>
+          </>
+        )}
+
+        <Heading level={mode === 'override' ? 4 : 3}>Settings</Heading>
 
         <WrappedTextField
           name="pixelId"
           component={TextField}
           width="size-4600"
           label="Pixel ID"
-          isRequired
-          necessityIndicator="label"
+          isRequired={mode !== 'override'}
+          necessityIndicator={mode === 'override' ? '' : 'label'}
           supportDataElement
         />
 
@@ -62,8 +79,8 @@ export default function ConfigurationFields() {
           component={TextField}
           width="size-4600"
           label="Access Token"
-          isRequired
-          necessityIndicator="label"
+          isRequired={mode !== 'override'}
+          necessityIndicator={mode === 'override' ? '' : 'label'}
           supportDataElement
           contextualHelp={
             <ContextualHelp>
@@ -88,20 +105,20 @@ export default function ConfigurationFields() {
           }
         />
 
-        {showConnectToMetaButton && (
+        {mode !== 'override' && showConnectToMetaButton && (
           <ConnectToMetaButton
             onPress={() =>
               fetchDataAndSetupAccount({
                 setValue,
                 setShowConnectToMetaButton,
-                setShowMbeArea
+                setShowEmqArea
               })
             }
           />
         )}
       </Flex>
 
-      {showMbeArea && <EmqArea pixelId={pixelId} />}
+      {mode !== 'override' && showEmqArea && <EmqArea pixelId={pixelId} />}
     </Flex>
   );
 }

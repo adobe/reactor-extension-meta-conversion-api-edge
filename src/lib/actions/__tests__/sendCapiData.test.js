@@ -113,4 +113,50 @@ describe('Send Conversion API data library module', () => {
       );
     }
   });
+
+  test('makes a fetch call with the configuration overridden', () => {
+    const fetch = jest.fn(() => Promise.resolve({}));
+
+    const extensionSettings = {
+      pixelId: 'ID123',
+      accessToken: 'token'
+    };
+
+    const settings = {
+      eventName: 'AddToCart',
+      eventTime: '1234',
+      eventSourceUrl: 'https://localhost',
+      eventId: 'EV123',
+      pixelId: 'ID321',
+      accessToken: 'nekot'
+    };
+
+    const utils = {
+      fetch: fetch,
+      getSettings: () => settings,
+      getExtensionSettings: () => extensionSettings
+    };
+
+    return sendCapiData({ arc, utils }).then(() => {
+      expect(fetch).toHaveBeenCalledWith(
+        `https://graph.facebook.com/${apiVersion}/ID321/events/?access_token=nekot`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body:
+            '{' +
+            '"data":[{' +
+            '"event_name":"AddToCart",' +
+            '"event_time":"1234",' +
+            '"event_id":"EV123",' +
+            '"event_source_url":"https://localhost",' +
+            '"data_processing_options":[],' +
+            '"user_data":{}' +
+            '}],' +
+            '"partner_agent":"adobe_launch"' +
+            '}'
+        }
+      );
+    });
+  });
 });

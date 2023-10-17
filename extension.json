@@ -127,6 +127,12 @@
           },
           "testEventCode": {
             "type": "string"
+          },
+          "pixelId": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
           }
         },
         "additionalProperties": false,

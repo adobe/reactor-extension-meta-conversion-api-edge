@@ -38,6 +38,10 @@ import getTestEventInitValues from './testEventSection/getInitValues';
 import getTestEventSettings from './testEventSection/getSettings';
 import validateTestEventFields from './testEventSection/validate';
 
+import ConfigurationFields from '../configuration/components/fields';
+import getConfigurationInitValues from '../configuration/components/getInitValues';
+import getConfigurationSettings from '../configuration/components/getSettings';
+
 export default function SendCapiData() {
   return (
     <ExtensionView
@@ -46,14 +50,16 @@ export default function SendCapiData() {
         ...getLimitedDataUseInitValues(initInfo),
         ...getCustomerInformationInitValues(initInfo),
         ...getCustomDataInitValues(initInfo),
-        ...getTestEventInitValues(initInfo)
+        ...getTestEventInitValues(initInfo),
+        ...getConfigurationInitValues(initInfo)
       })}
       getSettings={({ values }) => ({
         ...getServerEventParametersSettings(values),
         ...getLimitedDataUseSettings(values),
         ...getCustomerInformationSettings(values),
         ...getCustomDataSettings(values),
-        ...getTestEventSettings(values)
+        ...getTestEventSettings(values),
+        ...getConfigurationSettings(values)
       })}
       validate={(values) => ({
         ...validateServerEventParametersFields(values),
@@ -69,6 +75,7 @@ export default function SendCapiData() {
           <CustomerInformationFields />
           <CustomDataFields />
           <TestEventFields />
+          <ConfigurationFields mode="override" />
         </>
       )}
     />

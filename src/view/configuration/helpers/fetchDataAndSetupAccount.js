@@ -16,7 +16,7 @@ import createSecrets from './createSecrets';
 import createDataElement from './createDataElement';
 import getCoreExtensionId from './getCoreExtensionId';
 
-export default ({ setValue, setShowConnectToMetaButton, setShowMbeArea }) =>
+export default ({ setValue, setShowConnectToMetaButton, setShowEmqArea }) =>
   Promise.all([getMbeData(), getEnvironments(), getCoreExtensionId()])
     .then(([{ pixelId, suatAccessToken }, environments, extensionId]) => {
       window.localStorage.setItem('emqAccessToken', suatAccessToken);
@@ -30,7 +30,7 @@ export default ({ setValue, setShowConnectToMetaButton, setShowMbeArea }) =>
     })
     .then(([pixelId, dataElementName]) => {
       setShowConnectToMetaButton(false);
-      setShowMbeArea(true);
+      setShowEmqArea(true);
       setValue('pixelId', pixelId);
       setValue('accessToken', `{{${dataElementName}}}`);
     });

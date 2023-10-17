@@ -28,7 +28,7 @@ const parseCustomData = require('./helpers/parseCustomData');
 const lduValue = 'LDU';
 const agentValue = 'adobe_launch';
 
-const buildEventBody = async (getSettings) => {
+const buildEventBody = async (settings) => {
   const {
     actionSource,
     clientIpAddress,
@@ -60,7 +60,7 @@ const buildEventBody = async (getSettings) => {
     zip,
     partnerId,
     partnerName
-  } = getSettings();
+  } = settings;
 
   const body = {
     test_event_code: isTestEvent ? testEventCode : undefined,
@@ -136,8 +136,20 @@ const buildEventBody = async (getSettings) => {
 
 module.exports = async ({ utils }) => {
   const { getExtensionSettings, getSettings, fetch } = utils;
-  const { pixelId, accessToken } = getExtensionSettings();
+  let { pixelId, accessToken } = getExtensionSettings();
+
+  const settings = getSettings();
+  if (settings.pixelId) {
+    pixelId = settings.pixelId;
+    delete settings.pixelId;
+  }
+
+  if (settings.accessToken) {
+    accessToken = settings.accessToken;
+    delete settings.accessToken;
+  }
+
   const url = `https://graph.facebook.com/${version}/${pixelId}/events/?access_token=${accessToken}`;
 
-  return fetch(url, await buildEventBody(getSettings));
+  return fetch(url, await buildEventBody(settings));
 };

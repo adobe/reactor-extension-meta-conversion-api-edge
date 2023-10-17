@@ -33,18 +33,6 @@ import ConnectToMetaButton from './connectToMetaButton';
 import getMbeData from '../api/getMbeData';
 import getEmqData from '../api/getEmqData';
 
-const calculateVariant = (scoreRating) => {
-  if (scoreRating === 'great') {
-    return 'positive';
-  }
-
-  if (scoreRating === 'none' || scoreRating === 'ok') {
-    return '';
-  }
-
-  return 'warning';
-};
-
 const goToEmq = (pixelId) => {
   window.open(
     `https://business.facebook.com/events_manager2/${
@@ -180,9 +168,8 @@ export default function ConfigurationFields({ pixelId }) {
                 <Meter
                   key={e.eventName}
                   label={e.eventName}
-                  valueLabel={e.score}
+                  valueLabel={`${e.score} / 10`}
                   value={e.score * 10}
-                  variant={calculateVariant(e.scoreRating)}
                 />
               );
             })}

@@ -42,7 +42,7 @@ const goToEmq = (pixelId) => {
   );
 };
 
-export default function ConfigurationFields({ pixelId }) {
+export default function EmqArea({ pixelId }) {
   const [emqAccessToken, setEmqAccessToken] = React.useState(
     window.localStorage.getItem('emqAccessToken')
   );
@@ -55,6 +55,8 @@ export default function ConfigurationFields({ pixelId }) {
   const [emqData, setEmqData] = React.useState(null);
 
   React.useEffect(() => {
+    const controller = new AbortController();
+
     if (!isDataElementToken(pixelId) && !emqAccessToken) {
       setShowConnectToMetaButton(true);
     } else {
@@ -63,7 +65,7 @@ export default function ConfigurationFields({ pixelId }) {
 
     if (!isDataElementToken(pixelId) && emqAccessToken) {
       setIsEmqDataLoading(true);
-      getEmqData(pixelId, emqAccessToken)
+      getEmqData(pixelId, emqAccessToken, controller)
         .then(({ data = [] }) => {
           setError(null);
           setEmqData(
@@ -90,6 +92,8 @@ export default function ConfigurationFields({ pixelId }) {
           setIsEmqDataLoading(false);
         });
     }
+
+    return () => controller.abort();
   }, [pixelId, emqAccessToken]);
 
   return (

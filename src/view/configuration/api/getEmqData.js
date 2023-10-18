@@ -13,14 +13,14 @@ governing permissions and limitations under the License.
 import API_VERSION from '../../utils/apiVersion';
 import fetch from '../../utils/fetch';
 
-export default (pixelId, accessToken) => {
+export default (pixelId, accessToken, controller) => {
   const base = `https://graph.facebook.com/${API_VERSION}`;
   const params =
     `?fields=event_match_quality,event_name&agent_name=adobe_launch` +
     `&access_token=${accessToken}`;
   const url = `${base}/${pixelId}/setup_quality${params}`;
 
-  return fetch(url).catch((e) => {
+  return fetch(url, { signal: controller.signal }).catch((e) => {
     if (e instanceof TypeError) {
       throw new Error(`${e.message} when loading ${url}`);
     } else {

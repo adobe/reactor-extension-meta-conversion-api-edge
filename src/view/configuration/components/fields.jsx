@@ -31,13 +31,29 @@ import fetchDataAndSetupAccount from '../helpers/fetchDataAndSetupAccount';
 import EmqArea from './emqArea';
 import ConnectToMetaButton from './connectToMetaButton';
 
+const debounce = (callback, wait = 1000) => {
+  let timeoutId = null;
+  return (...args) => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback(...args);
+    }, wait);
+  };
+};
+
 export default function ConfigurationFields({ mode }) {
   const { watch, setValue } = useFormContext();
   const [pixelId, accessToken] = watch(['pixelId', 'accessToken']);
+  const [deferredPixelId, setDeferredPixelId] = React.useState(pixelId);
 
   const [showEmqArea, setShowEmqArea] = React.useState(false);
   const [showConnectToMetaButton, setShowConnectToMetaButton] =
     React.useState(false);
+
+  const debouncedOnPixelChange = React.useCallback(
+    debounce((v) => setDeferredPixelId(v), 300),
+    []
+  );
 
   React.useEffect(() => {
     setShowConnectToMetaButton(!pixelId && !accessToken);
@@ -72,6 +88,7 @@ export default function ConfigurationFields({ mode }) {
           isRequired={mode !== 'override'}
           necessityIndicator={mode === 'override' ? '' : 'label'}
           supportDataElement
+          onChange={debouncedOnPixelChange}
         />
 
         <WrappedTextField
@@ -118,7 +135,9 @@ export default function ConfigurationFields({ mode }) {
         )}
       </Flex>
 
-      {mode !== 'override' && showEmqArea && <EmqArea pixelId={pixelId} />}
+      {mode !== 'override' && showEmqArea && (
+        <EmqArea pixelId={deferredPixelId} />
+      )}
     </Flex>
   );
 }

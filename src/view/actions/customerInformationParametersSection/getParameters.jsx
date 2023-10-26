@@ -290,6 +290,50 @@ export default ({ actionSource, lduEnabled } = {}) => [
       .
     </Text>
   ],
-  ['partnerName', 'Partner Name (alpha)'],
-  ['partnerId', 'Partner ID (alpha)']
+  [
+    'partnerName',
+    'Partner Name (alpha)',
+    null,
+    false,
+    <ContextualHelp>
+      <Heading>Tip</Heading>
+      <Content>
+        <p>
+          RampID inclusion may enhance the integration quality by increasing the
+          user match rate, because of LiveRamp&rsquo;s strong identity graph.
+        </p>
+        <p>
+          To leverage this feature you must be a LiveRamp customer and have
+          their Authenticated Traffic Solution (ATS) deployed on your site.
+        </p>
+        <p>
+          Please work with your Meta account team for join the Alpha program for
+          this feature.
+        </p>
+      </Content>
+    </ContextualHelp>
+  ],
+  [
+    'partnerId',
+    'Partner ID (alpha)',
+    null,
+    false,
+    <ContextualHelp>
+      <Heading>Tip</Heading>
+      <Content>
+        <p>
+          RampID inclusion may enhance the integration quality by increasing the
+          user match rate, because of LiveRamp&rsquo;s strong identity graph.
+        </p>
+        <p>
+          To leverage this feature you must be a LiveRamp customer and have
+          their Authenticated Traffic Solution (ATS) deployed on your site.
+        </p>
+        <p>
+          Please work with your Meta account team for join the Alpha program for
+          this feature.
+        </p>
+      </Content>
+    </ContextualHelp>
+  ]
 ];

@@ -307,7 +307,7 @@ export default ({ actionSource, lduEnabled } = {}) => [
           their Authenticated Traffic Solution (ATS) deployed on your site.
         </p>
         <p>
-          Please work with your Meta account team for join the Alpha program for
+          Please work with your Meta account team to join the Alpha program for
           this feature.
         </p>
       </Content>
@@ -330,7 +330,7 @@ export default ({ actionSource, lduEnabled } = {}) => [
           their Authenticated Traffic Solution (ATS) deployed on your site.
         </p>
         <p>
-          Please work with your Meta account team for join the Alpha program for
+          Please work with your Meta account team to join the Alpha program for
           this feature.
         </p>
       </Content>

@@ -299,12 +299,9 @@ export default ({ actionSource, lduEnabled } = {}) => [
       <Heading>Tip</Heading>
       <Content>
         <p>
-          RampID inclusion may enhance the integration quality by increasing the
-          user match rate, because of LiveRamp&rsquo;s strong identity graph.
-        </p>
-        <p>
-          To leverage this feature you must be a LiveRamp customer and have
-          their Authenticated Traffic Solution (ATS) deployed on your site.
+          LiveRamp customers who have LiveRamp&rsquo;s Authenticated Traffic
+          Solution (ATS) deployed on their sites may opt to share RampIDs as a
+          Customer Information Parameter.
         </p>
         <p>
           Please work with your Meta account team to join the Alpha program for
@@ -322,12 +319,9 @@ export default ({ actionSource, lduEnabled } = {}) => [
       <Heading>Tip</Heading>
       <Content>
         <p>
-          RampID inclusion may enhance the integration quality by increasing the
-          user match rate, because of LiveRamp&rsquo;s strong identity graph.
-        </p>
-        <p>
-          To leverage this feature you must be a LiveRamp customer and have
-          their Authenticated Traffic Solution (ATS) deployed on your site.
+          LiveRamp customers who have LiveRamp&rsquo;s Authenticated Traffic
+          Solution (ATS) deployed on their sites may opt to share RampIDs as a
+          Customer Information Parameter.
         </p>
         <p>
           Please work with your Meta account team to join the Alpha program for

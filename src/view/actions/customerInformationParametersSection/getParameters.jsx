@@ -290,6 +290,44 @@ export default ({ actionSource, lduEnabled } = {}) => [
       .
     </Text>
   ],
-  ['partnerName', 'Partner Name (alpha)'],
-  ['partnerId', 'Partner ID (alpha)']
+  [
+    'partnerName',
+    'Partner Name (alpha)',
+    null,
+    false,
+    <ContextualHelp>
+      <Heading>Tip</Heading>
+      <Content>
+        <p>
+          LiveRamp customers who have LiveRamp&rsquo;s Authenticated Traffic
+          Solution (ATS) deployed on their sites may opt to share RampIDs as a
+          Customer Information Parameter.
+        </p>
+        <p>
+          Please work with your Meta account team to join the Alpha program for
+          this feature.
+        </p>
+      </Content>
+    </ContextualHelp>
+  ],
+  [
+    'partnerId',
+    'Partner ID (alpha)',
+    null,
+    false,
+    <ContextualHelp>
+      <Heading>Tip</Heading>
+      <Content>
+        <p>
+          LiveRamp customers who have LiveRamp&rsquo;s Authenticated Traffic
+          Solution (ATS) deployed on their sites may opt to share RampIDs as a
+          Customer Information Parameter.
+        </p>
+        <p>
+          Please work with your Meta account team to join the Alpha program for
+          this feature.
+        </p>
+      </Content>
+    </ContextualHelp>
+  ]
 ];

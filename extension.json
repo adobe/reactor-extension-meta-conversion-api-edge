@@ -3,7 +3,7 @@
   "name": "facebook_conversions_api_extension",
   "iconPath": "resources/icons/meta.svg",
   "platform": "edge",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
     "name": "Adobe",

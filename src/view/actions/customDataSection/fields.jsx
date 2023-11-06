@@ -52,7 +52,7 @@ export default function DataSectionFields() {
               Use these parameters to send additional data we can use for ads
               delivery optimization. The format must be a valid JSON object or a
               data element. If data elements are being utilized, please validate
-              that they are being replaced correcly.
+              that they are being replaced correctly.
             </p>
             <p>
               For Purchase events, value and currency are required. For more

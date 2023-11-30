@@ -50,6 +50,7 @@ export default function ConfigurationFields({ mode }) {
   const [showConnectToMetaButton, setShowConnectToMetaButton] =
     React.useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnPixelChange = React.useCallback(
     debounce((v) => setDeferredPixelId(v), 300),
     []

@@ -2,7 +2,7 @@
   "name": "@adobe/reactor-extension-meta-conversion-api-edge",
   "platform": "edge",
   "version": "1.6.1",
-  "apiVersion": "v18.0",
+  "apiVersion": "v22.0",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
     "name": "Adobe",

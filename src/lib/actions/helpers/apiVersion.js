@@ -10,4 +10,4 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-module.exports = 'v18.0';
+module.exports = 'v22.0';

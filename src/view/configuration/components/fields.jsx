@@ -43,7 +43,7 @@ const debounce = (callback, wait = 1000) => {
 
 export default function ConfigurationFields({ mode }) {
   const { watch, setValue } = useFormContext();
-  const [pixelId, accessToken] = watch(['pixelId', 'accessToken']);
+  const [pixelId] = watch(['pixelId', 'accessToken']);
   const [deferredPixelId, setDeferredPixelId] = React.useState(pixelId);
 
   const [showEmqArea, setShowEmqArea] = React.useState(false);
@@ -55,12 +55,6 @@ export default function ConfigurationFields({ mode }) {
     debounce((v) => setDeferredPixelId(v), 300),
     []
   );
-
-  React.useEffect(() => {
-    setShowConnectToMetaButton(!pixelId && !accessToken);
-    setShowEmqArea(Boolean(pixelId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Flex gap="size-300" direction="row" wrap="wrap">

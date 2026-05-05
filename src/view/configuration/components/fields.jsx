@@ -200,8 +200,8 @@ export default function ConfigurationFields({ mode }) {
                     fontStyle: 'italic'
                   }}
                 >
-                  An alternative method via Business Manager is also available
-                  — see the guide below.
+                  An alternative method via Business Manager is also available —
+                  see the guide below.
                 </Text>
                 <Text
                   UNSAFE_style={{

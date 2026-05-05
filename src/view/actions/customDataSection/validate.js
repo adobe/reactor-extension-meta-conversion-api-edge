@@ -71,7 +71,7 @@ export default ({
   ) {
     const keys = (customDataJsonPairs || []).map(({ key }) => key);
     if (!keys.includes('currency') || !keys.includes('value')) {
-      errors[`customDataJsonPairs.0.key`] =
+      errors['customDataJsonPairs.0.key'] =
         'The custom data needs to contain the "currency" and "value" keys for Purchase events.';
     }
   }

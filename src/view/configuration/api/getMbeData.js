@@ -150,14 +150,17 @@ const startMetaLoginAndFetchPixelIdAndToken = (userId) => () => {
         // refer to the extras object table for details
         extras: {
           setup: {
+            // eslint-disable-next-line camelcase
             external_business_id: FBE_EXTERNAL_BUSINESS_ID,
             timezone:
               Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone ||
               'US/Mountain',
             currency: currencyCode,
+            // eslint-disable-next-line camelcase
             business_vertical: 'MEASUREMENT_AND_OPTIMIZATION',
             channel: 'CONVERSIONS_API'
           },
+          // eslint-disable-next-line camelcase
           business_config: {
             business: {
               name: 'Adobe CDP Fist Time User Experience'

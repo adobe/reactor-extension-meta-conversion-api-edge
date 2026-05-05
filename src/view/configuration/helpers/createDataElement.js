@@ -23,7 +23,9 @@ export default (extensionId) => (secrets) =>
           return acc;
         }, {})
       }),
+      // eslint-disable-next-line camelcase
       delegate_descriptor_id: 'core::dataElements::secret',
+      // eslint-disable-next-line camelcase
       extension_id: extensionId
     }
   }).then(

@@ -10,9 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/require-default-props */
-
 import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { View } from '@adobe/react-spectrum';
@@ -70,16 +67,12 @@ const ExtensionView = function ExtensionView({
 
       validate: () => methods.trigger()
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return initId > 0 ? (
     <View margin="size-200" key={id}>
       <ErrorBoundary>
-        <FormProvider
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...methods}
-        >
+        <FormProvider {...methods}>
           <form>{render()}</form>
           {/* <DisplayFormState /> */}
         </FormProvider>

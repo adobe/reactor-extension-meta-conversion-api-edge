@@ -10,8 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
@@ -97,7 +95,6 @@ export default function ServerEventParametersFields() {
               necessityIndicator={isRequired && 'label'}
               contextualHelp={contextualHelp}
               supportDataElement
-              // eslint-disable-next-line react/jsx-props-no-spreading
               {...rest}
             />
           );

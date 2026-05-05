@@ -10,8 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
@@ -51,7 +49,6 @@ export default function ConfigurationFields({ mode }) {
   const [showConnectToMetaButton, setShowConnectToMetaButton] =
     React.useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnPixelChange = React.useCallback(
     debounce((v) => setDeferredPixelId(v), 300),
     []

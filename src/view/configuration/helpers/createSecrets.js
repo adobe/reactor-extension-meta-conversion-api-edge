@@ -21,6 +21,7 @@ export default ({ environments, token }) =>
           name: `${stage.charAt(0).toUpperCase()}${stage.slice(
             1
           )} Facebook Token created on ${new Date().toUTCString()}`,
+          // eslint-disable-next-line camelcase
           type_of: 'token',
           credentials: {
             token

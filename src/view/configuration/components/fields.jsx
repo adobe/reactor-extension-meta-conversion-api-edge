@@ -22,7 +22,8 @@ import {
   ContextualHelp,
   Heading,
   Badge,
-  Text
+  Text,
+  View
 } from '@adobe/react-spectrum';
 
 import Info from '@spectrum-icons/workflow/Info';
@@ -84,6 +85,73 @@ export default function ConfigurationFields({ mode }) {
           necessityIndicator={mode === 'override' ? '' : 'label'}
           supportDataElement
           onChange={debouncedOnPixelChange}
+          contextualHelp={
+            <ContextualHelp>
+              <Heading>Finding your Pixel ID</Heading>
+              <Content>
+                <Text
+                  UNSAFE_style={{
+                    display: 'block',
+                    marginBottom: '8px'
+                  }}
+                >
+                  If you already have a Meta Pixel set up for your website, use
+                  that same Pixel ID here.
+                </Text>
+                <Text
+                  UNSAFE_style={{
+                    fontWeight: 'bold',
+                    display: 'block',
+                    marginBottom: '4px'
+                  }}
+                >
+                  To find your Pixel ID:
+                </Text>
+                <ol
+                  style={{
+                    margin: '0 0 12px 0',
+                    paddingLeft: '18px',
+                    lineHeight: '1.6'
+                  }}
+                >
+                  <li>Open Events Manager</li>
+                  <li>Select your pixel from the left panel</li>
+                  <li>The Pixel ID appears below the pixel name</li>
+                </ol>
+                <Text
+                  UNSAFE_style={{
+                    fontWeight: 'bold',
+                    display: 'block',
+                    marginBottom: '4px'
+                  }}
+                >
+                  Links
+                </Text>
+                <View marginBottom="size-75">
+                  <Link>
+                    <a
+                      href="https://business.facebook.com/events_manager"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open Events Manager
+                    </a>
+                  </Link>
+                </View>
+                <View>
+                  <Link>
+                    <a
+                      href="https://developers.facebook.com/docs/meta-pixel/get-started"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      About Meta Pixel
+                    </a>
+                  </Link>
+                </View>
+              </Content>
+            </ContextualHelp>
+          }
         />
 
         <WrappedTextField
@@ -96,22 +164,76 @@ export default function ConfigurationFields({ mode }) {
           supportDataElement
           contextualHelp={
             <ContextualHelp>
-              <Heading>Need help?</Heading>
+              <Heading>Getting an Access Token</Heading>
               <Content>
-                <p>
-                  A Meta System User access token is required to send events via
-                  Conversions API.
-                </p>
-                <Link>
-                  <a
-                    href="https://developers.facebook.com/docs/marketing-api/conversions-api/get-started#via-events-manager"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    How to generate a System User access token via Events
-                    Manager
-                  </a>
-                </Link>
+                <Text
+                  UNSAFE_style={{
+                    fontWeight: 'bold',
+                    display: 'block',
+                    marginBottom: '4px'
+                  }}
+                >
+                  Recommended: via Events Manager
+                </Text>
+                <ol
+                  style={{
+                    margin: '0 0 12px 0',
+                    paddingLeft: '18px',
+                    lineHeight: '1.6'
+                  }}
+                >
+                  <li>Open Events Manager and select your Pixel</li>
+                  <li>
+                    Go to the <strong>Settings</strong> tab
+                  </li>
+                  <li>
+                    Under <strong>Conversions API</strong>, click{' '}
+                    <strong>Generate access token</strong> (visible to users
+                    with developer privileges only)
+                  </li>
+                  <li>Follow the on-screen instructions</li>
+                </ol>
+                <Text
+                  UNSAFE_style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    fontStyle: 'italic'
+                  }}
+                >
+                  An alternative method via Business Manager is also available
+                  — see the guide below.
+                </Text>
+                <Text
+                  UNSAFE_style={{
+                    fontWeight: 'bold',
+                    display: 'block',
+                    marginBottom: '4px'
+                  }}
+                >
+                  Links
+                </Text>
+                <View marginBottom="size-75">
+                  <Link>
+                    <a
+                      href="https://business.facebook.com/events_manager"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open Events Manager
+                    </a>
+                  </Link>
+                </View>
+                <View>
+                  <Link>
+                    <a
+                      href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/get-started"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Conversions API get started guide
+                    </a>
+                  </Link>
+                </View>
               </Content>
             </ContextualHelp>
           }

@@ -28,6 +28,30 @@ const parseCustomData = require('./helpers/parseCustomData');
 const lduValue = 'LDU';
 const agentValue = 'adobe_launch';
 
+// Meta's Conversions API requires advertiser_tracking_enabled and
+// application_tracking_enabled as integers (1 = enabled, 0 = disabled).
+// When the user selects from the combobox, the value is stored as the
+// string "true" or "false". We convert those known strings to their
+// integer equivalents here. Any other value — including null, undefined,
+// or an unrecognized resolved string — throws with a personalized error
+// identifying the field, so misconfigured events fail early and visibly.
+const toTrackingInt = (key, value) => {
+  let resolvedBoolean = undefined;
+  if (value === 'true') {
+    resolvedBoolean = 1;
+  }
+  if (value === 'false') {
+    resolvedBoolean = 0;
+  }
+
+  if (resolvedBoolean === undefined) {
+    throw new Error(
+      `${key} must be resolve to "true" or "false". Found value was "${value}"`
+    );
+  }
+  return resolvedBoolean;
+};
+
 const buildEventBody = async (settings) => {
   const {
     actionSource,
@@ -59,7 +83,31 @@ const buildEventBody = async (settings) => {
     testEventCode,
     zip,
     partnerId,
-    partnerName
+    partnerName,
+    advertiserTrackingEnabled,
+    applicationTrackingEnabled,
+    campaignIds,
+    installReferrer,
+    installerPackage,
+    urlSchemes,
+    vendorId,
+    windowsAttributionId,
+    extinfoVersion,
+    extinfoAppPackageName,
+    extinfoShortVersion,
+    extinfoLongVersion,
+    extinfoOsVersion,
+    extinfoDeviceModelName,
+    extinfoLocale,
+    extinfoTimezoneAbbreviation,
+    extinfoCarrier,
+    extinfoScreenWidth,
+    extinfoScreenHeight,
+    extinfoScreenDensity,
+    extinfoCpuCores,
+    extinfoExternalStorageSizeGb,
+    extinfoFreeSpaceExternalStorageGb,
+    extinfoDeviceTimezone
   } = settings;
 
   const body = {
@@ -123,6 +171,55 @@ const buildEventBody = async (settings) => {
     if (isObject(c)) {
       body.data[0].custom_data = c;
     }
+  }
+
+  if ('app' === actionSource?.toLowerCase()?.trim()) {
+    if (!extinfoVersion?.length) {
+      throw new Error(
+        'extinfo: "extinfo version" (example: "i2") is required for app events'
+      );
+    }
+    if (!extinfoOsVersion?.length) {
+      throw new Error(
+        'extinfo: "extinfo OS version" (example: 13.4.1) is required for app events'
+      );
+    }
+    body.data[0].app_data = {
+      advertiser_tracking_enabled: toTrackingInt(
+        'advertiserTrackingEnabled',
+        advertiserTrackingEnabled
+      ),
+      application_tracking_enabled: toTrackingInt(
+        'applicationTrackingEnabled',
+        applicationTrackingEnabled
+      ),
+      // empty strings are set for missing extinfo pieces to
+      // ensure the array remains 16 elements long.
+      extinfo: [
+        extinfoVersion, // required. guarded by the throw above.
+        extinfoAppPackageName,
+        extinfoShortVersion,
+        extinfoLongVersion,
+        extinfoOsVersion, // required. guarded by the throw above.
+        extinfoDeviceModelName,
+        extinfoLocale,
+        extinfoTimezoneAbbreviation,
+        extinfoCarrier,
+        extinfoScreenWidth,
+        extinfoScreenHeight,
+        extinfoScreenDensity,
+        extinfoCpuCores,
+        extinfoExternalStorageSizeGb,
+        extinfoFreeSpaceExternalStorageGb,
+        extinfoDeviceTimezone
+      ].map((v) => (v != null ? String(v) : '')),
+      campaign_ids: campaignIds ?? undefined,
+      install_referrer: installReferrer ?? undefined,
+      installer_package: installerPackage ?? undefined,
+      url_schemes: urlSchemes ?? undefined,
+      vendor_id: vendorId ?? undefined,
+      windows_attribution_id: windowsAttributionId ?? undefined
+    };
   }
 
   return {

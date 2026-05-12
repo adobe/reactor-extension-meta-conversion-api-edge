@@ -20,6 +20,7 @@ import {
 } from '@adobe/react-spectrum';
 import CONSTANTS from '../../utils/constants';
 
+// Each entry returned from here is [name, label, description, isRequired, contextualHelp]
 export default ({ actionSource, lduEnabled } = {}) => [
   [
     'clientIpAddress',

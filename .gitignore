@@ -7,3 +7,4 @@ dist
 adobe-reactor-extension-meta-conversion-api-edge-*.tgz
 package-facebook_conversions_api_extension-*.zip
 .eslintcache
+.cursor

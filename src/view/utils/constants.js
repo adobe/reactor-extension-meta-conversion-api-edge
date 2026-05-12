@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 export default {
   WEBSITE: 'website',
+  APP: 'app',
   PURCHASE: 'purchase',
   API_PRODUCTION_URL: 'https://reactor.adobe.io',
   API_STAGE_URL: 'https://reactor-dev.adobe.io',

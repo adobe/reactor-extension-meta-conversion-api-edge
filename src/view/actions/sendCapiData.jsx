@@ -33,6 +33,10 @@ import getCustomDataInitValues from './customDataSection/getInitValues';
 import getCustomDataSettings from './customDataSection/getSettings';
 import validateCustomDataFields from './customDataSection/validate';
 
+import getAppDataInitValues from './appDataParametersSection/getInitValues';
+import getAppDataSettings from './appDataParametersSection/getSettings';
+import validateAppDataParametersFields from './appDataParametersSection/validate';
+
 import TestEventFields from './testEventSection/fields';
 import getTestEventInitValues from './testEventSection/getInitValues';
 import getTestEventSettings from './testEventSection/getSettings';
@@ -51,6 +55,7 @@ export default function SendCapiData() {
         ...getCustomerInformationInitValues(initInfo),
         ...getCustomDataInitValues(initInfo),
         ...getTestEventInitValues(initInfo),
+        ...getAppDataInitValues(initInfo),
         ...getConfigurationInitValues(initInfo)
       })}
       getSettings={({ values }) => ({
@@ -59,6 +64,7 @@ export default function SendCapiData() {
         ...getCustomerInformationSettings(values),
         ...getCustomDataSettings(values),
         ...getTestEventSettings(values),
+        ...getAppDataSettings(values),
         ...getConfigurationSettings(values)
       })}
       validate={(values) => ({
@@ -66,7 +72,8 @@ export default function SendCapiData() {
         ...validateLimitedDataUseFields(values),
         ...validateCustomerInformationFields(values),
         ...validateCustomDataFields(values),
-        ...validateTestEventFields(values)
+        ...validateTestEventFields(values),
+        ...validateAppDataParametersFields(values)
       })}
       render={() => (
         <>

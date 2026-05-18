@@ -3,7 +3,7 @@
   "name": "facebook_conversions_api_extension",
   "iconPath": "resources/icons/meta.svg",
   "platform": "edge",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Send web events to Meta's Conversions API.",
   "author": {
     "name": "Adobe",
@@ -132,6 +132,84 @@
             "type": "string"
           },
           "accessToken": {
+            "type": "string"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "partnerName": {
+            "type": "string"
+          },
+          "advertiserTrackingEnabled": {
+            "type": "string"
+          },
+          "applicationTrackingEnabled": {
+            "type": "string"
+          },
+          "extinfoVersion": {
+            "type": "string"
+          },
+          "extinfoAppPackageName": {
+            "type": "string"
+          },
+          "extinfoShortVersion": {
+            "type": "string"
+          },
+          "extinfoLongVersion": {
+            "type": "string"
+          },
+          "extinfoOsVersion": {
+            "type": "string"
+          },
+          "extinfoDeviceModelName": {
+            "type": "string"
+          },
+          "extinfoLocale": {
+            "type": "string"
+          },
+          "extinfoTimezoneAbbreviation": {
+            "type": "string"
+          },
+          "extinfoCarrier": {
+            "type": "string"
+          },
+          "extinfoScreenWidth": {
+            "type": "string"
+          },
+          "extinfoScreenHeight": {
+            "type": "string"
+          },
+          "extinfoScreenDensity": {
+            "type": "string"
+          },
+          "extinfoCpuCores": {
+            "type": "string"
+          },
+          "extinfoExternalStorageSizeGb": {
+            "type": "string"
+          },
+          "extinfoFreeSpaceExternalStorageGb": {
+            "type": "string"
+          },
+          "extinfoDeviceTimezone": {
+            "type": "string"
+          },
+          "campaignIds": {
+            "type": "string"
+          },
+          "installReferrer": {
+            "type": "string"
+          },
+          "installerPackage": {
+            "type": "string"
+          },
+          "urlSchemes": {
+            "type": "string"
+          },
+          "vendorId": {
+            "type": "string"
+          },
+          "windowsAttributionId": {
             "type": "string"
           }
         },

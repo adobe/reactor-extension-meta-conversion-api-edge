@@ -10,13 +10,17 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 export default ({ settings }) => {
+  const urlSchemes = Array.isArray(settings?.urlSchemes)
+    ? JSON.stringify(settings.urlSchemes)
+    : settings?.urlSchemes || '';
+
   return {
     advertiserTrackingEnabled: settings?.advertiserTrackingEnabled || '',
     applicationTrackingEnabled: settings?.applicationTrackingEnabled || '',
     campaignIds: settings?.campaignIds || '',
     installReferrer: settings?.installReferrer || '',
     installerPackage: settings?.installerPackage || '',
-    urlSchemes: settings?.urlSchemes || '',
+    urlSchemes,
     vendorId: settings?.vendorId || '',
     windowsAttributionId: settings?.windowsAttributionId || '',
     extinfoVersion: settings?.extinfoVersion || '',

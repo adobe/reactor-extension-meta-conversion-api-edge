@@ -10,39 +10,50 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import resolveUrlSchemesFormValue from './resolveUrlSchemesFormValue';
+
+const keysWithPrimitiveValues = [
+  'advertiserTrackingEnabled',
+  'applicationTrackingEnabled',
+  'campaignIds',
+  'installReferrer',
+  'installerPackage',
+  'vendorId',
+  'windowsAttributionId',
+  'extinfoVersion',
+  'extinfoAppPackageName',
+  'extinfoShortVersion',
+  'extinfoLongVersion',
+  'extinfoOsVersion',
+  'extinfoDeviceModelName',
+  'extinfoLocale',
+  'extinfoTimezoneAbbreviation',
+  'extinfoCarrier',
+  'extinfoScreenWidth',
+  'extinfoScreenHeight',
+  'extinfoScreenDensity',
+  'extinfoCpuCores',
+  'extinfoExternalStorageSizeGb',
+  'extinfoFreeSpaceExternalStorageGb',
+  'extinfoDeviceTimezone'
+];
+
 export default (values) => {
   const result = {};
 
-  [
-    'advertiserTrackingEnabled',
-    'applicationTrackingEnabled',
-    'campaignIds',
-    'installReferrer',
-    'installerPackage',
-    'urlSchemes',
-    'vendorId',
-    'windowsAttributionId',
-    'extinfoVersion',
-    'extinfoAppPackageName',
-    'extinfoShortVersion',
-    'extinfoLongVersion',
-    'extinfoOsVersion',
-    'extinfoDeviceModelName',
-    'extinfoLocale',
-    'extinfoTimezoneAbbreviation',
-    'extinfoCarrier',
-    'extinfoScreenWidth',
-    'extinfoScreenHeight',
-    'extinfoScreenDensity',
-    'extinfoCpuCores',
-    'extinfoExternalStorageSizeGb',
-    'extinfoFreeSpaceExternalStorageGb',
-    'extinfoDeviceTimezone'
-  ].forEach((v) => {
+  keysWithPrimitiveValues.forEach((v) => {
     if (values[v]) {
       result[v] = values[v];
     }
   });
+
+  const urlSchemesResolved = resolveUrlSchemesFormValue(values?.urlSchemes);
+  if (
+    urlSchemesResolved.kind === 'dataElementToken' ||
+    urlSchemesResolved.kind === 'array'
+  ) {
+    result.urlSchemes = urlSchemesResolved.value;
+  }
 
   return result;
 };

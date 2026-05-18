@@ -164,7 +164,7 @@ export default ({ actionSource } = {}) => {
     [
       'urlSchemes',
       'URL Schemes',
-      'Used internally by the iOS and Android SDKs.'
+      'Meta expects a JSON array of URL scheme strings (e.g. ["https://url.com","https://url2.com"]). Enter an array here, or a single {{data element}} token whose resolved value is that array.'
     ],
     ['vendorId', 'Vendor ID', 'Vendor ID.'],
     [

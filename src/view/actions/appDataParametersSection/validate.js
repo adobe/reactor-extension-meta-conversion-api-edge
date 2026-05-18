@@ -12,6 +12,10 @@ governing permissions and limitations under the License.
 
 import checkRequired from '../../utils/checkRequired';
 import CONSTANTS from '../../utils/constants';
+import urlSchemesInvalidMessage from '../../../constants/urlSchemesInvalidMessage';
+import resolveUrlSchemesFormValue from './resolveUrlSchemesFormValue';
+
+const { URL_SCHEMES_INVALID_MESSAGE } = urlSchemesInvalidMessage;
 
 export default (values) => {
   const errors = {};
@@ -40,6 +44,11 @@ export default (values) => {
   ].forEach(([key, value, errorVariableDescription]) => {
     checkRequired(key, value, errorVariableDescription, errors);
   });
+
+  const urlSchemesResolved = resolveUrlSchemesFormValue(values?.urlSchemes);
+  if (urlSchemesResolved.kind === 'invalid') {
+    errors.urlSchemes = URL_SCHEMES_INVALID_MESSAGE;
+  }
 
   return errors;
 };

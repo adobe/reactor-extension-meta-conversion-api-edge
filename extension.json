@@ -204,7 +204,14 @@
             "type": "string"
           },
           "urlSchemes": {
-            "type": "string"
+            "oneOf": [
+              {
+                "type": "array"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "vendorId": {
             "type": "string"

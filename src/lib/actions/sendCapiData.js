@@ -25,6 +25,7 @@ const {
 const version = require('./helpers/apiVersion');
 const { isString, isObject } = require('./helpers/validators');
 const parseCustomData = require('./helpers/parseCustomData');
+const { normalizeUrlSchemes } = require('./helpers/urlSchemesNormalize');
 const lduValue = 'LDU';
 const agentValue = 'adobe_launch';
 
@@ -46,7 +47,7 @@ const toTrackingInt = (key, value) => {
 
   if (resolvedBoolean === undefined) {
     throw new Error(
-      `${key} must be resolve to "true" or "false". Found value was "${value}"`
+      `${key} must resolve to "true" or "false". Found value was "${value}"`
     );
   }
   return resolvedBoolean;
@@ -216,7 +217,7 @@ const buildEventBody = async (settings) => {
       campaign_ids: campaignIds ?? undefined,
       install_referrer: installReferrer ?? undefined,
       installer_package: installerPackage ?? undefined,
-      url_schemes: urlSchemes ?? undefined,
+      url_schemes: normalizeUrlSchemes(urlSchemes),
       vendor_id: vendorId ?? undefined,
       windows_attribution_id: windowsAttributionId ?? undefined
     };

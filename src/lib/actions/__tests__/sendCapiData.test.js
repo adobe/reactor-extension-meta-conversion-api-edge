@@ -360,7 +360,7 @@ describe('Send Conversion API data library module', () => {
     };
 
     await expect(sendCapiData({ arc, utils })).rejects.toThrow(
-      'advertiserTrackingEnabled must be resolve to "true" or "false". Found value was "yes"'
+      'advertiserTrackingEnabled must resolve to "true" or "false". Found value was "yes"'
     );
   });
 
@@ -392,7 +392,7 @@ describe('Send Conversion API data library module', () => {
     };
 
     await expect(sendCapiData({ arc, utils })).rejects.toThrow(
-      'advertiserTrackingEnabled must be resolve to "true" or "false". Found value was "null"'
+      'advertiserTrackingEnabled must resolve to "true" or "false". Found value was "null"'
     );
   });
 
@@ -423,8 +423,109 @@ describe('Send Conversion API data library module', () => {
     };
 
     await expect(sendCapiData({ arc, utils })).rejects.toThrow(
-      'advertiserTrackingEnabled must be resolve to "true" or "false". Found value was "undefined"'
+      'advertiserTrackingEnabled must resolve to "true" or "false". Found value was "undefined"'
     );
+  });
+
+  test('throws when urlSchemes is invalid for app events', async () => {
+    const fetch = jest.fn(() => Promise.resolve({}));
+
+    const extensionSettings = {
+      pixelId: 'ID123',
+      accessToken: 'token'
+    };
+
+    const {
+      URL_SCHEMES_INVALID_MESSAGE
+    } = require('../../../constants/urlSchemesInvalidMessage');
+
+    const settings = {
+      eventName: 'AddToCart',
+      eventTime: '1234',
+      actionSource: 'app',
+      advertiserTrackingEnabled: 'true',
+      applicationTrackingEnabled: 'true',
+      extinfoVersion: 'i2',
+      extinfoOsVersion: '16.0',
+      urlSchemes: '{}'
+    };
+
+    const utils = {
+      fetch: fetch,
+      getSettings: () => settings,
+      getExtensionSettings: () => extensionSettings
+    };
+
+    await expect(sendCapiData({ arc, utils })).rejects.toThrow(
+      URL_SCHEMES_INVALID_MESSAGE
+    );
+  });
+
+  test('sends url_schemes as JSON array when urlSchemes is an array', () => {
+    const fetch = jest.fn(() => Promise.resolve({}));
+
+    const extensionSettings = {
+      pixelId: 'ID123',
+      accessToken: 'token'
+    };
+
+    const settings = {
+      eventName: 'AddToCart',
+      eventTime: '1234',
+      actionSource: 'app',
+      advertiserTrackingEnabled: 'true',
+      applicationTrackingEnabled: 'true',
+      extinfoVersion: 'i2',
+      extinfoOsVersion: '16.0',
+      urlSchemes: ['myapp://', 'other://']
+    };
+
+    const utils = {
+      fetch: fetch,
+      getSettings: () => settings,
+      getExtensionSettings: () => extensionSettings
+    };
+
+    return sendCapiData({ arc, utils }).then(() => {
+      const [, request] = fetch.mock.calls[0];
+      const parsedBody = JSON.parse(request.body);
+      expect(parsedBody.data[0].app_data.url_schemes).toEqual([
+        'myapp://',
+        'other://'
+      ]);
+    });
+  });
+
+  test('normalizes url_schemes from JSON string literal to array for app events', () => {
+    const fetch = jest.fn(() => Promise.resolve({}));
+
+    const extensionSettings = {
+      pixelId: 'ID123',
+      accessToken: 'token'
+    };
+
+    const settings = {
+      eventName: 'AddToCart',
+      eventTime: '1234',
+      actionSource: 'app',
+      advertiserTrackingEnabled: 'true',
+      applicationTrackingEnabled: 'true',
+      extinfoVersion: 'i2',
+      extinfoOsVersion: '16.0',
+      urlSchemes: '["a://","b://"]'
+    };
+
+    const utils = {
+      fetch: fetch,
+      getSettings: () => settings,
+      getExtensionSettings: () => extensionSettings
+    };
+
+    return sendCapiData({ arc, utils }).then(() => {
+      const [, request] = fetch.mock.calls[0];
+      const parsedBody = JSON.parse(request.body);
+      expect(parsedBody.data[0].app_data.url_schemes).toEqual(['a://', 'b://']);
+    });
   });
 
   test('includes optional top-level app data fields when present, omits when absent', () => {

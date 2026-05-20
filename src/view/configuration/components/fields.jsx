@@ -111,41 +111,42 @@ export default function ConfigurationFields({ mode }) {
                     lineHeight: '1.6'
                   }}
                 >
-                  <li>Open Events Manager</li>
-                  <li>Select your pixel from the left panel</li>
-                  <li>The Pixel ID appears below the pixel name</li>
+                  <li>
+                    Open{' '}
+                    <Link>
+                      <a
+                        href="https://business.facebook.com/events_manager"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Events Manager
+                      </a>
+                    </Link>
+                  </li>
+                  <li>Select your pixel</li>
+                  <li>
+                    Click the <strong>Dataset ID</strong> on the right side of
+                    the page to copy it, then paste it here
+                  </li>
                 </ol>
                 <Text
                   UNSAFE_style={{
-                    fontWeight: 'bold',
                     display: 'block',
-                    marginBottom: '4px'
+                    fontStyle: 'italic'
                   }}
                 >
-                  Links
-                </Text>
-                <View marginBottom="size-75">
-                  <Link>
-                    <a
-                      href="https://business.facebook.com/events_manager"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Open Events Manager
-                    </a>
-                  </Link>
-                </View>
-                <View>
+                  Don&apos;t have a pixel yet?{' '}
                   <Link>
                     <a
                       href="https://developers.facebook.com/docs/meta-pixel/get-started"
                       target="_blank"
                       rel="noreferrer"
                     >
-                      About Meta Pixel
+                      Follow the setup guide
                     </a>
                   </Link>
-                </View>
+                  .
+                </Text>
               </Content>
             </ContextualHelp>
           }
@@ -179,7 +180,19 @@ export default function ConfigurationFields({ mode }) {
                     lineHeight: '1.6'
                   }}
                 >
-                  <li>Open Events Manager and select your Pixel</li>
+                  <li>
+                    Open{' '}
+                    <Link>
+                      <a
+                        href="https://business.facebook.com/events_manager"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Events Manager
+                      </a>
+                    </Link>
+                    {' '}and select your Pixel
+                  </li>
                   <li>
                     Go to the <strong>Settings</strong> tab
                   </li>
@@ -189,48 +202,27 @@ export default function ConfigurationFields({ mode }) {
                     with developer privileges only)
                   </li>
                   <li>Follow the on-screen instructions</li>
+                  <li>Copy the generated token and paste it here</li>
                 </ol>
                 <Text
                   UNSAFE_style={{
                     display: 'block',
-                    marginBottom: '8px',
                     fontStyle: 'italic'
                   }}
                 >
-                  An alternative method via Business Manager is also available —
-                  see the guide below.
-                </Text>
-                <Text
-                  UNSAFE_style={{
-                    fontWeight: 'bold',
-                    display: 'block',
-                    marginBottom: '4px'
-                  }}
-                >
-                  Links
-                </Text>
-                <View marginBottom="size-75">
-                  <Link>
-                    <a
-                      href="https://business.facebook.com/events_manager"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Open Events Manager
-                    </a>
-                  </Link>
-                </View>
-                <View>
+                  An alternative method via Business Manager is also available
+                  —{' '}
                   <Link>
                     <a
                       href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/get-started"
                       target="_blank"
                       rel="noreferrer"
                     >
-                      Conversions API get started guide
+                      see the guide
                     </a>
                   </Link>
-                </View>
+                  .
+                </Text>
               </Content>
             </ContextualHelp>
           }

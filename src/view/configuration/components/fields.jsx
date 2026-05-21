@@ -190,8 +190,8 @@ export default function ConfigurationFields({ mode }) {
                       >
                         Events Manager
                       </a>
-                    </Link>
-                    {' '}and select your Pixel
+                    </Link>{' '}
+                    and select your Pixel
                   </li>
                   <li>
                     Go to the <strong>Settings</strong> tab
@@ -210,8 +210,7 @@ export default function ConfigurationFields({ mode }) {
                     fontStyle: 'italic'
                   }}
                 >
-                  An alternative method via Business Manager is also available
-                  —{' '}
+                  An alternative method via Business Manager is also available —{' '}
                   <Link>
                     <a
                       href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/get-started"

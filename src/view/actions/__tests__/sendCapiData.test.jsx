@@ -121,6 +121,33 @@ const getFormFields = async () => ({
   })
 });
 
+const getAppDataFields = async () => ({
+  advertiserTrackingEnabledInput: await screen.findByLabelText(
+    /advertiser tracking enabled/i,
+    { selector: '[name="advertiserTrackingEnabled"]' }
+  ),
+  applicationTrackingEnabledInput: await screen.findByLabelText(
+    /application tracking enabled/i,
+    { selector: '[name="applicationTrackingEnabled"]' }
+  ),
+  extinfoVersionInput: await screen.findByLabelText(/extinfo: version/i, {
+    selector: '[name="extinfoVersion"]'
+  }),
+  extinfoOsVersionInput: await screen.findByLabelText(/extinfo: os version/i, {
+    selector: '[name="extinfoOsVersion"]'
+  }),
+  extinfoDeviceModelNameInput: await screen.findByLabelText(
+    /extinfo: device model name/i,
+    { selector: '[name="extinfoDeviceModelName"]' }
+  ),
+  campaignIdsInput: await screen.findByLabelText(/campaign ids/i, {
+    selector: '[name="campaignIds"]'
+  }),
+  vendorIdInput: await screen.findByLabelText(/vendor id/i, {
+    selector: '[name="vendorId"]'
+  })
+});
+
 describe('SendCapiData view', () => {
   test('sets form values from settings', async () => {
     renderView(SendCapiData);
@@ -369,5 +396,187 @@ describe('SendCapiData view', () => {
 
     expect(eventSourceUrlInput).toHaveAttribute('aria-invalid', 'true');
     expect(clientUserAgentInput).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  test('hides app data section when action source is not "app"', async () => {
+    renderView(SendCapiData);
+
+    await extensionBridge.init({
+      settings: { actionSource: 'website' }
+    });
+
+    // Wait for the form to render before asserting absence.
+    await getFormFields();
+
+    expect(
+      screen.queryByLabelText(/advertiser tracking enabled/i, {
+        selector: '[name="advertiserTrackingEnabled"]'
+      })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText(/extinfo: version/i, {
+        selector: '[name="extinfoVersion"]'
+      })
+    ).not.toBeInTheDocument();
+  });
+
+  test('shows app data section when action source is "App"', async () => {
+    renderView(SendCapiData);
+
+    await extensionBridge.init({
+      settings: { actionSource: 'App' }
+    });
+
+    const {
+      advertiserTrackingEnabledInput,
+      applicationTrackingEnabledInput,
+      extinfoVersionInput,
+      extinfoOsVersionInput
+    } = await getAppDataFields();
+
+    expect(advertiserTrackingEnabledInput).toBeInTheDocument();
+    expect(applicationTrackingEnabledInput).toBeInTheDocument();
+    expect(extinfoVersionInput).toBeInTheDocument();
+    expect(extinfoOsVersionInput).toBeInTheDocument();
+  });
+
+  test('shows app data section + alert when action source is a data element', async () => {
+    renderView(SendCapiData);
+
+    await extensionBridge.init({
+      settings: { actionSource: '{{myDataElement}}' }
+    });
+
+    const { advertiserTrackingEnabledInput, extinfoVersionInput } =
+      await getAppDataFields();
+
+    expect(advertiserTrackingEnabledInput).toBeInTheDocument();
+    expect(extinfoVersionInput).toBeInTheDocument();
+
+    // The red InlineAlert renders the heading "Required fields may be missing".
+    expect(
+      await screen.findByText(/required fields may be missing/i)
+    ).toBeInTheDocument();
+  });
+
+  test('sets form values from app data settings', async () => {
+    renderView(SendCapiData);
+
+    await extensionBridge.init({
+      settings: {
+        actionSource: 'App',
+        advertiserTrackingEnabled: 'true',
+        applicationTrackingEnabled: 'false',
+        extinfoVersion: 'i2',
+        extinfoOsVersion: '16.0',
+        extinfoDeviceModelName: 'iPhone14,3',
+        campaignIds: 'abc123',
+        vendorId: 'vendor1'
+      }
+    });
+
+    const {
+      advertiserTrackingEnabledInput,
+      applicationTrackingEnabledInput,
+      extinfoVersionInput,
+      extinfoOsVersionInput,
+      extinfoDeviceModelNameInput,
+      campaignIdsInput,
+      vendorIdInput
+    } = await getAppDataFields();
+
+    expect(advertiserTrackingEnabledInput.value).toBe('true');
+    expect(applicationTrackingEnabledInput.value).toBe('false');
+    expect(extinfoVersionInput.value).toBe('i2');
+    expect(extinfoOsVersionInput.value).toBe('16.0');
+    expect(extinfoDeviceModelNameInput.value).toBe('iPhone14,3');
+    expect(campaignIdsInput.value).toBe('abc123');
+    expect(vendorIdInput.value).toBe('vendor1');
+  });
+
+  test('sets settings from app data form values', async () => {
+    renderView(SendCapiData);
+
+    await extensionBridge.init({
+      settings: { actionSource: 'App' }
+    });
+
+    const {
+      advertiserTrackingEnabledInput,
+      applicationTrackingEnabledInput,
+      extinfoVersionInput,
+      extinfoOsVersionInput,
+      extinfoDeviceModelNameInput,
+      campaignIdsInput,
+      vendorIdInput
+    } = await getAppDataFields();
+
+    await changeComboboxValue(advertiserTrackingEnabledInput, 'true');
+    await changeComboboxValue(applicationTrackingEnabledInput, 'false');
+    await changeInputValue(extinfoVersionInput, 'i2');
+    await changeInputValue(extinfoOsVersionInput, '16.0');
+    await changeInputValue(extinfoDeviceModelNameInput, 'iPhone14,3');
+    await changeInputValue(campaignIdsInput, 'abc123');
+    await changeInputValue(vendorIdInput, 'vendor1');
+
+    expect(extensionBridge.getSettings()).toEqual(
+      expect.objectContaining({
+        actionSource: 'app',
+        advertiserTrackingEnabled: 'true',
+        applicationTrackingEnabled: 'false',
+        extinfoVersion: 'i2',
+        extinfoOsVersion: '16.0',
+        extinfoDeviceModelName: 'iPhone14,3',
+        campaignIds: 'abc123',
+        vendorId: 'vendor1'
+      })
+    );
+  });
+
+  test('flags required app data fields invalid when action source is "app"', async () => {
+    renderView(SendCapiData);
+
+    await extensionBridge.init({
+      settings: { actionSource: 'App' }
+    });
+
+    const {
+      advertiserTrackingEnabledInput,
+      applicationTrackingEnabledInput,
+      extinfoVersionInput,
+      extinfoOsVersionInput
+    } = await getAppDataFields();
+
+    await extensionBridge.validate();
+
+    expect(advertiserTrackingEnabledInput).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    );
+    expect(applicationTrackingEnabledInput).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    );
+    expect(extinfoVersionInput).toHaveAttribute('aria-invalid', 'true');
+    expect(extinfoOsVersionInput).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  test('does not flag app data fields invalid when action source is a data element', async () => {
+    renderView(SendCapiData);
+
+    await extensionBridge.init({
+      settings: { actionSource: '{{myDataElement}}' }
+    });
+
+    const { advertiserTrackingEnabledInput, extinfoVersionInput } =
+      await getAppDataFields();
+
+    await extensionBridge.validate();
+
+    expect(advertiserTrackingEnabledInput).not.toHaveAttribute(
+      'aria-invalid',
+      'true'
+    );
+    expect(extinfoVersionInput).not.toHaveAttribute('aria-invalid', 'true');
   });
 });

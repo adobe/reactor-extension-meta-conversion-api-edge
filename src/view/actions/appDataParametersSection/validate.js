@@ -1,0 +1,54 @@
+/*
+Copyright 2026 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+import checkRequired from '../../utils/checkRequired';
+import CONSTANTS from '../../utils/constants';
+import urlSchemesInvalidMessage from '../../../constants/urlSchemesInvalidMessage';
+import resolveUrlSchemesFormValue from './resolveUrlSchemesFormValue';
+
+const { URL_SCHEMES_INVALID_MESSAGE } = urlSchemesInvalidMessage;
+
+export default (values) => {
+  const errors = {};
+
+  if (values?.actionSource?.toLowerCase() !== CONSTANTS.APP) {
+    return errors;
+  }
+
+  [
+    [
+      'advertiserTrackingEnabled',
+      values.advertiserTrackingEnabled,
+      'a value for advertiser tracking enabled'
+    ],
+    [
+      'applicationTrackingEnabled',
+      values.applicationTrackingEnabled,
+      'a value for application tracking enabled'
+    ],
+    [
+      'extinfoVersion',
+      values.extinfoVersion,
+      'the extinfo version (e.g. "i2" for iOS, "a2" for Android)'
+    ],
+    ['extinfoOsVersion', values.extinfoOsVersion, 'the OS version']
+  ].forEach(([key, value, errorVariableDescription]) => {
+    checkRequired(key, value, errorVariableDescription, errors);
+  });
+
+  const urlSchemesResolved = resolveUrlSchemesFormValue(values?.urlSchemes);
+  if (urlSchemesResolved.kind === 'invalid') {
+    errors.urlSchemes = URL_SCHEMES_INVALID_MESSAGE;
+  }
+
+  return errors;
+};

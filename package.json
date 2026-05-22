@@ -9,6 +9,7 @@
     "url": "http://adobe.com",
     "email": "reactor@adobe.com"
   },
+  "releaseNotesUrl": "https://github.com/adobe/reactor-extension-meta-conversion-api-edge/releases",
   "publishConfig": {
     "access": "public"
   },
